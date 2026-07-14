@@ -1,0 +1,1998 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#18202B">
+<title>Atlas de Tratamentos Térmicos · V18 (mobile)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;700;900&family=IBM+Plex+Sans:ital,wght@0,400;0,600;1,400&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#EDF0F3; --card:#FFFFFF; --ink:#18202B; --steel:#55677A; --line:#D4DBE2;
+  --heat:#B3400F; --heat-soft:#F4E3DA; --tblue:#2F6690; --tblue-soft:#E1EBF3;
+  --straw:#D9A441; --bronze:#A9692B; --purple:#6E4A72; --blue:#33628F;
+  --mono:'IBM Plex Mono',monospace; --body:'IBM Plex Sans',sans-serif; --disp:'Archivo',sans-serif;
+  --topbar:112px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{background:var(--paper);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.62;overflow-x:hidden}
+::selection{background:var(--heat);color:#fff}
+
+/* ---------- sticky top bar ---------- */
+.topbar{position:sticky;top:0;z-index:50;background:var(--ink);color:#fff;
+  padding:10px 16px calc(8px + env(safe-area-inset-bottom,0));padding-top:calc(10px + env(safe-area-inset-top,0))}
+.topbar .row{display:flex;align-items:center;gap:10px}
+.topbar h1{font-family:var(--disp);font-weight:900;font-size:15px;letter-spacing:-.02em;line-height:1.12;flex:1}
+.topbar .v{font-family:var(--mono);font-size:10px;background:var(--heat);padding:2px 7px;border-radius:3px;white-space:nowrap}
+.temperbar{display:flex;height:4px;margin-top:8px;border-radius:3px;overflow:hidden}
+.temperbar span{flex:1}
+.temperbar span:nth-child(1){background:var(--straw)}.temperbar span:nth-child(2){background:var(--bronze)}
+.temperbar span:nth-child(3){background:var(--purple)}.temperbar span:nth-child(4){background:var(--blue)}
+/* pill nav — horizontal scroll */
+.pills{display:flex;gap:7px;overflow-x:auto;margin-top:9px;padding-bottom:3px;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+.pills::-webkit-scrollbar{display:none}
+.pills button{flex:0 0 auto;font-family:var(--mono);font-size:12.5px;background:#2A3646;color:#C7D2DD;border:0;
+  padding:10px 15px;border-radius:20px;white-space:nowrap;cursor:pointer;min-height:44px}
+.pills button .n{color:#7E92A6;margin-right:5px}
+.pills button.active{background:var(--heat);color:#fff}
+.pills button.active .n{color:#F4D9CC}
+
+/* ---------- content ---------- */
+main{padding:20px 16px 40px;max-width:820px;margin:0 auto}
+section.module{display:none}
+section.module.on{display:block;animation:fade .22s ease}
+@keyframes fade{from{opacity:0;transform:translateY(5px)}to{opacity:1}}
+
+.eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--heat);margin-bottom:7px}
+h2{font-family:var(--disp);font-weight:900;font-size:25px;letter-spacing:-.02em;line-height:1.12;margin-bottom:12px}
+h3{font-family:var(--disp);font-weight:700;font-size:18px;letter-spacing:-.01em;margin:26px 0 9px;padding-top:18px;border-top:1px solid var(--line)}
+h4{font-family:var(--disp);font-weight:700;font-size:15px;margin:18px 0 6px}
+p{margin-bottom:12px}
+p.lead{font-size:16.5px;color:#2B3B4D}
+strong{font-weight:600}
+em{color:var(--steel)}
+code,.mono{font-family:var(--mono);font-size:.88em;background:#E4E9EE;padding:1px 5px;border-radius:3px;overflow-wrap:anywhere}
+ul.tight,ol.tight{margin:0 0 12px 20px}
+ul.tight li,ol.tight li{margin-bottom:7px}
+
+.grid2{display:grid;grid-template-columns:1fr;gap:12px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:16px;margin:13px 0}
+.card h4{margin-top:0}
+.callout{border-left:4px solid var(--heat);background:var(--heat-soft);border-radius:0 8px 8px 0;padding:13px 15px;margin:15px 0}
+.callout.blue{border-left-color:var(--tblue);background:var(--tblue-soft)}
+.callout .tag{font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--heat);display:block;margin-bottom:4px}
+.callout.blue .tag{color:var(--tblue)}
+.callout p{margin-bottom:0}
+
+/* tables → horizontal scroll on phones */
+.tscroll{position:relative;overflow-x:auto;-webkit-overflow-scrolling:touch;margin:13px 0;border-radius:10px;border:1px solid var(--line)}
+.tscroll table{margin:0;border:0;border-radius:0;min-width:560px}
+.scrollhint{display:block;font-family:var(--mono);font-size:10.5px;color:var(--steel);margin:0 0 5px 2px}
+table{width:100%;border-collapse:collapse;background:var(--card);font-size:13.5px}
+th{font-family:var(--mono);font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;text-align:left;background:var(--ink);color:#DCE4EC;padding:9px 11px;font-weight:600;position:sticky;top:0}
+td{padding:9px 11px;border-top:1px solid var(--line);vertical-align:top}
+tr:nth-child(even) td{background:#F6F8FA}
+td.num{font-family:var(--mono);font-size:12.5px;white-space:nowrap}
+
+/* figures / diagrams */
+.figwrap{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:14px;margin:16px 0}
+.figwrap figcaption{font-size:12px;color:var(--steel);margin-top:9px;font-family:var(--mono);line-height:1.5}
+.svgscroll{overflow-x:auto;-webkit-overflow-scrolling:touch}
+.svgscroll svg{min-width:620px;height:auto;display:block}
+svg text{font-family:'IBM Plex Mono',monospace}
+
+/* interactive controls — big tap targets */
+.btnrow{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0}
+button.chip{font-family:var(--mono);font-size:13px;border:1px solid var(--line);background:#fff;color:var(--ink);padding:10px 15px;border-radius:22px;cursor:pointer;min-height:42px}
+button.chip.sel{background:var(--heat);border-color:var(--heat);color:#fff}
+.result{font-family:var(--mono);font-size:13px;background:#0F1621;color:#8FE3B4;border-radius:8px;padding:13px 15px;margin-top:10px;line-height:1.7}
+.result b{color:#FFD27A;font-weight:600}
+.calc{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:10px 0}
+.calc>div:only-child,.calc.wide>div{grid-column:1/-1}
+.calc label{font-family:var(--mono);font-size:11px;color:var(--steel);display:block;margin-bottom:4px}
+.calc input,.calc select{width:100%;font-family:var(--mono);font-size:16px;padding:11px 12px;border:1px solid var(--line);border-radius:8px;background:#fff;color:var(--ink);min-height:46px}
+.calc input:focus,.calc select:focus{outline:2px solid var(--tblue);border-color:var(--tblue)}
+.kpi{display:flex;gap:10px;flex-wrap:wrap;margin:14px 0}
+.kpi div{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:12px 15px;flex:1;min-width:120px}
+.kpi .n{font-family:var(--disp);font-weight:900;font-size:22px;color:var(--heat)}
+.kpi .l{font-family:var(--mono);font-size:10px;color:var(--steel);text-transform:uppercase;letter-spacing:.06em;margin-top:2px}
+.temperscale{display:flex;flex-wrap:wrap;border-radius:8px;overflow:hidden;margin:14px 0;border:1px solid var(--line)}
+.temperscale div{flex:1 0 33%;padding:10px 6px;color:#fff;font-family:var(--mono);font-size:10.5px;text-align:center;line-height:1.45}
+
+/* pager */
+.pager{display:flex;justify-content:space-between;gap:10px;margin:30px 0 6px;padding-top:18px;border-top:1px solid var(--line)}
+.pager span{flex:1}
+.pgbtn{font-family:var(--mono);font-size:12.5px;background:#fff;border:1px solid var(--line);color:var(--ink);
+  padding:12px 14px;border-radius:10px;cursor:pointer;min-height:46px;flex:1;text-align:left}
+.pgbtn.next{text-align:right;background:var(--ink);color:#fff;border-color:var(--ink)}
+
+footer{margin-top:30px;padding-top:18px;border-top:1px solid var(--line);font-family:var(--mono);font-size:11.5px;color:var(--steel);line-height:1.6}
+
+/* back-to-top */
+#toTop{position:fixed;right:14px;bottom:calc(14px + env(safe-area-inset-bottom,0));z-index:40;
+  width:46px;height:46px;border-radius:50%;border:0;background:var(--heat);color:#fff;font-size:20px;
+  box-shadow:0 4px 14px rgba(0,0,0,.25);cursor:pointer;display:none}
+#toTop.show{display:block}
+
+/* wider screens: comfortable but still single-column reading */
+@media(min-width:680px){
+  .grid2{grid-template-columns:1fr 1fr}
+  .calc{grid-template-columns:repeat(auto-fit,minmax(140px,1fr))}
+  h2{font-size:30px}
+}
+
+/* --- simulador / microscópio --- */
+.simctl{display:flex;align-items:center;gap:10px;margin:12px 0 4px}
+.simctl .chip{flex:0 0 auto}
+.simctl input[type=range]{flex:1;-webkit-appearance:none;appearance:none;height:6px;border-radius:4px;
+  background:linear-gradient(90deg,#B3400F,#D4DBE2);outline:none}
+.simctl input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:26px;height:26px;border-radius:50%;
+  background:#fff;border:3px solid #B3400F;cursor:pointer}
+.simctl input[type=range]::-moz-range-thumb{width:22px;height:22px;border-radius:50%;background:#fff;border:3px solid #B3400F;cursor:pointer}
+.microwrap{border:1px solid var(--line);border-radius:10px;overflow:hidden;background:#F2F5F7;margin-top:8px}
+.microhead{display:flex;justify-content:space-between;align-items:center;background:var(--ink);color:#DCE4EC;
+  font-family:var(--mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;padding:7px 11px}
+.microhead span:last-child{color:#FFD27A;font-weight:600;text-transform:none;letter-spacing:0;font-size:12.5px}
+#micro{display:block;width:100%}
+.microfoot{font-family:var(--mono);font-size:10.5px;color:var(--steel);padding:6px 11px;background:#fff;border-top:1px solid var(--line)}
+.fracbar{display:flex;height:26px;border-radius:6px;overflow:hidden;margin-top:10px;border:1px solid var(--line);background:#fff}
+.fracbar div{display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:10.5px;
+  transition:flex .25s ease;min-width:0;overflow:hidden}
+.legend{display:flex;flex-wrap:wrap;gap:10px;margin-top:7px;font-family:var(--mono);font-size:11px;color:var(--steel)}
+.legend span{cursor:pointer;padding:3px 6px;border-radius:6px}
+.legend span.on{background:#E8955B33;outline:1px solid var(--heat)}
+.legend i{display:inline-block;width:11px;height:11px;border-radius:2px;border:1px solid #B9C4CE;margin-right:4px;vertical-align:-1px}
+
+.lvl{display:inline-block;font-family:var(--mono);font-size:9.5px;letter-spacing:.08em;background:var(--tblue);color:#fff;border-radius:4px;padding:2px 7px;vertical-align:2px;margin-left:6px}
+.steelinfo{font-size:11.5px;color:var(--steel);background:#E9EDF1;border:1px solid var(--line);border-radius:8px;padding:11px 12px;min-height:46px;display:flex;align-items:center}
+.chip.stl{border-width:2px;font-weight:600}
+.slbl{flex:0 0 92px;font-size:12px;color:var(--steel)}
+.slbl b{color:var(--heat);font-size:14px}
+/* --- galeria de microestruturas --- */
+.gallery{display:grid;grid-template-columns:1fr;gap:13px;margin:14px 0}
+.gcell{background:var(--card);border:1px solid var(--line);border-radius:10px;overflow:hidden}
+.gcell canvas{display:block;width:100%;border-bottom:1px solid var(--line)}
+.gcell figcaption{font-size:13px;padding:11px 13px;line-height:1.55}
+.gcell figcaption b{font-family:var(--disp);font-weight:700}
+@media(min-width:680px){.gallery{grid-template-columns:1fr 1fr}}
+
+@media print{
+  .topbar,.pager,#toTop,.simctl,.btnrow,.pills{display:none!important}
+  section.module{display:block!important;page-break-after:always}
+  body{background:#fff}
+  .figwrap,.card,.tscroll{break-inside:avoid}
+}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<header class="topbar">
+  <div class="row">
+    <h1>Atlas de Tratamentos Térmicos &amp; Termoquímicos</h1>
+    <span class="v">V18 · mobile</span>
+  </div>
+  <div class="temperbar"><span></span><span></span><span></span><span></span></div>
+  <div class="pills" id="pills">
+    <button class="active" data-m="m1"><span class="n">01</span>Fundamentos</button>
+    <button data-m="m2"><span class="n">02</span>Cinética</button>
+    <button data-m="m3"><span class="n">03</span>Recozimentos</button>
+    <button data-m="m4"><span class="n">04</span>Têmpera &amp; Revenido</button>
+    <button data-m="m5"><span class="n">05</span>Termoquímicos</button>
+    <button data-m="m6"><span class="n">06</span>Superficial</button>
+    <button data-m="m7"><span class="n">07</span>Aços &amp; Ligas</button>
+    <button data-m="m8"><span class="n">08</span>Prática</button>
+  </div>
+</header>
+<main>
+
+<!-- ============================================================ MÓDULO 1 -->
+<section class="module on" id="m1">
+  <div class="eyebrow">Módulo 1 · A base de tudo</div>
+  <h2>Fundamentos: alotropia, fases e o diagrama Fe-C</h2>
+  <p class="lead">Grande parte dos tratamentos de <strong>endurecimento</strong> dos aços baseia-se no controle de uma transformação: a passagem entre ferro CCC (α) e ferro CFC (γ). Outros — alívio de tensões, revenido, nitretação, recristalização, endurecimento por precipitação — atuam por recuperação, precipitação ou difusão, <em>sem</em> re-austenitizar. Dominar o diagrama Fe-C e o comportamento do carbono nessas duas redes é o que separa quem "segue receita" de quem projeta o tratamento.</p>
+
+  <h3>1.1 Alotropia do ferro e solubilidade do carbono</h3>
+  <p>O ferro puro muda de estrutura cristalina com a temperatura:</p>
+  <div class="tscroll" role="region" aria-label="tabela rolável"><span class="scrollhint">↔ arraste a tabela</span><table>
+    <tr><th>Fase</th><th>Rede</th><th>Faixa</th><th>Solubilidade máx. de C</th><th>Comentário</th></tr>
+    <tr><td><strong>Ferrita α</strong></td><td>CCC</td><td class="num">&lt; 912 °C</td><td class="num">0,022 % a 727 °C</td><td>Macia (~80 HB), dúctil; ferromagnética só abaixo de ~770 °C (temperatura de Curie), paramagnética de 770 a 912 °C. Os interstícios CCC são pequenos → quase não dissolve C.</td></tr>
+    <tr><td><strong>Austenita γ</strong></td><td>CFC</td><td class="num">912–1394 °C</td><td class="num">2,11 % a 1148 °C</td><td>Interstícios octaédricos grandes → dissolve ~100× mais C. É o "estado de partida" de quase todo tratamento.</td></tr>
+    <tr><td><strong>Ferrita δ</strong></td><td>CCC</td><td class="num">1394–1538 °C</td><td class="num">0,09 %</td><td>Relevante em soldagem e solidificação, não em TT convencional.</td></tr>
+  </table></div>
+  <div class="callout"><span class="tag">Insight central</span>
+  <p>A diferença de solubilidade (0,022 % vs 2,11 %) é o motor de tudo: ao resfriar austenita, o carbono <strong>precisa sair de solução</strong>. Dar tempo → ele forma cementita (perlita, bainita). Não dar tempo → ele fica <strong>aprisionado</strong>, distorcendo a rede em uma estrutura TCC supersaturada: a <strong>martensita</strong>.</p></div>
+
+  <h4 style="margin-top:22px">Simulador atômico: CFC ⇄ CCC e o destino do carbono (correspondência de Bain)</h4>
+  <p>Abaixo, as células unitárias desenhadas <strong>como no livro-texto</strong> (arestas ocultas tracejadas): CFC = 8 vértices + 6 centros de face · CCC = 8 vértices + 1 átomo central. Nos dois botões de transformação, acompanhe <strong>o destino do carbono</strong> — sair por difusão e formar Fe₃C, ou ficar preso e travar a célula em tetragonal:</p>
+  <div class="figwrap">
+    <div class="btnrow" id="bainBtns">
+      <button class="chip sel" data-b="gamma">γ · CFC</button>
+      <button class="chip" data-b="alpha">α · CCC</button>
+      <button class="chip" data-b="diff">Resfriar devagar (difusão)</button>
+      <button class="chip" data-b="mart">Resfriar rápido (martensita)</button>
+    </div>
+    <div class="microwrap">
+      <div class="microhead"><span>Célula unitária · Bain</span><span id="bainCA">c/a = 1,41</span></div>
+      <canvas id="bainCv" data-h="250" role="img" aria-label="Células unitárias CFC e CCC no estilo de livro-texto, com o destino do átomo de carbono na transformação"></canvas>
+      <div class="microfoot">Azul = Fe · vermelho = C · linha cheia = aresta visível · tracejada = oculta · vibração térmica contínua</div>
+    </div>
+    <div class="result" id="bainOut"></div>
+  </div>
+
+
+  <h3>1.2 Pontos críticos e nomenclatura</h3>
+  <ul class="tight">
+    <li><strong>A1 = 727 °C</strong> — temperatura eutetoide. Abaixo dela não existe austenita em equilíbrio.</li>
+    <li><strong>A3</strong> — fronteira γ / (α+γ) para aços hipoeutetoides (&lt;0,77 %C). Cai de 912 °C (Fe puro) até 727 °C em 0,77 %C.</li>
+    <li><strong>Acm</strong> — fronteira γ / (γ+Fe₃C) para hipereutetoides (&gt;0,77 %C). Sobe de 727 °C até 1148 °C.</li>
+    <li><strong>Prefixos Ac / Ar</strong> — <em>chauffage</em> (aquecimento) e <em>refroidissement</em> (resfriamento). Há histerese: Ac3 &gt; A3 &gt; Ar3. Fichas de tratamento reais usam Ac1/Ac3.</li>
+  </ul>
+
+  <h3>1.3 Diagrama Fe-Fe₃C interativo</h3>
+  <p>Passe o mouse (ou toque) sobre as regiões para identificar as fases. As linhas em laranja são as que você usará a vida inteira: A1, A3 e Acm.</p>
+  <div class="figwrap"><span class="scrollhint">↔ arraste o diagrama para ampliar</span>
+    <div class="svgscroll"><svg viewBox="0 0 760 480" width="100%" role="img" aria-label="Diagrama de equilíbrio ferro-carbono">
+      <!-- axes -->
+      <line x1="70" y1="20" x2="70" y2="420" stroke="#18202B" stroke-width="1.5"/>
+      <line x1="70" y1="420" x2="730" y2="420" stroke="#18202B" stroke-width="1.5"/>
+      <!-- y labels: T from 400 (y=420) to 1600 (y=20) => y = 420 - (T-400)/3 -->
+      <g font-size="11" fill="#55677A">
+        <text x="30" y="424">400</text><text x="30" y="357">600</text><text x="30" y="290">800</text>
+        <text x="24" y="224">1000</text><text x="24" y="157">1200</text><text x="24" y="90">1400</text><text x="24" y="24">1600</text>
+        <text x="16" y="230" transform="rotate(-90 16 230)">Temperatura (°C)</text>
+      </g>
+      <!-- x labels: %C 0..6.67 => x = 70 + C*99 -->
+      <g font-size="11" fill="#55677A">
+        <text x="66" y="438">0</text><text x="165" y="438">1</text><text x="264" y="438">2</text><text x="363" y="438">3</text><text x="462" y="438">4</text><text x="561" y="438">5</text><text x="660" y="438">6</text><text x="716" y="438">6,67</text>
+        <text x="330" y="460">Carbono (% em massa)</text>
+      </g>
+      <!-- region fills (hoverable) -->
+      <g id="fec" stroke="none">
+        <polygon class="rg" data-i="Líquido (L) — acima da linha liquidus." points="70,54 495,171 730,131 730,20 70,20" fill="#F3E6DA"/>
+        <polygon class="rg" data-i="L + γ — solidificação da austenita (0,17–4,3 %C)." points="70,54 495,171 279,171 87,90" fill="#EAD9C4"/>
+        <polygon class="rg" data-i="L + Fe₃C — solidificação com cementita primária (hipereutético)." points="495,171 730,131 730,171" fill="#E2CBAE"/>
+        <polygon class="rg" data-i="Austenita (γ) — CFC. Campo de austenitização: todo TT de endurecimento começa aqui." points="87,90 279,171 279,232 146,323 72,250 70,120" fill="#DCE8F2"/>
+        <polygon class="rg" data-i="γ + Fe₃C — hipereutetoide entre A1 e Acm. Faixa de austenitização parcial dos aços-ferramenta." points="279,171 730,171 730,323 146,323 279,232" fill="#CFE0EE"/>
+        <polygon class="rg" data-i="α + γ — zona intercrítica dos hipoeutetoides (entre A1 e A3). Usada em recozimento intercrítico e aços bifásicos." points="70,250 72,250 146,323 70,323" fill="#E4EDF5"/>
+        <polygon class="rg" data-i="Ferrita α — CCC, quase sem carbono (máx. 0,022 %)." points="70,250 70,323 74,323 70,290" fill="#F0F4F8"/>
+        <polygon class="rg" data-i="α + Fe₃C — abaixo de A1: perlita (+ ferrita ou cementita pró-eutetoide, conforme %C)." points="70,323 730,323 730,420 70,420" fill="#EDF1F4"/>
+      </g>
+      <!-- key lines -->
+      <g stroke="#B3400F" stroke-width="2.2" fill="none">
+        <line x1="70" y1="323" x2="730" y2="323"/> <!-- A1 727 -->
+        <polyline points="72,250 146,323"/>          <!-- A3 -->
+        <polyline points="146,323 279,232"/>         <!-- Acm (to 2.11%C,1148) -->
+      </g>
+      <g stroke="#18202B" stroke-width="1.4" fill="none">
+        <polyline points="70,54 495,171"/>           <!-- liquidus hypo -->
+        <polyline points="730,131 495,171"/>         <!-- liquidus hyper -->
+        <polyline points="87,90 279,171"/>           <!-- solidus -->
+        <line x1="279" y1="171" x2="730" y2="171"/>  <!-- 1148 eutetico -->
+      </g>
+      <!-- markers -->
+      <g font-size="11" fill="#B3400F" font-weight="600">
+        <text x="600" y="316">A1 · 727 °C</text>
+        <text x="84" y="270">A3</text>
+        <text x="212" y="268">Acm</text>
+      </g>
+      <g font-size="11" fill="#18202B">
+        <text x="500" y="163">Eutético 4,3 %C · 1148 °C (ledeburita)</text>
+        <circle cx="146" cy="323" r="4" fill="#B3400F"/>
+        <text x="120" y="342" fill="#B3400F" font-weight="600">Eutetoide 0,77 %C</text>
+        <text x="110" y="215" font-weight="600" fill="#2F6690">γ</text>
+        <text x="76" y="308" font-weight="600" fill="#2F6690">α</text>
+        <text x="330" y="100" font-weight="600">L</text>
+        <text x="380" y="390" fill="#55677A">α + Fe₃C  (perlita + fase pró-eutetoide)</text>
+        <text x="430" y="255" fill="#55677A">γ + Fe₃C</text>
+      </g>
+      <line id="fecMkH" x1="70" y1="270" x2="730" y2="270" stroke="#B3400F" stroke-width="1" stroke-dasharray="3 4" opacity="0.65"/>
+      <line id="fecMkV" x1="114" y1="20" x2="114" y2="420" stroke="#B3400F" stroke-width="1" stroke-dasharray="3 4" opacity="0.65"/>
+      <circle id="fecMark" cx="114" cy="270" r="7" fill="none" stroke="#B3400F" stroke-width="3"/>
+      <circle cx="114" cy="270" r="1.5" fill="#B3400F" id="fecMarkDotIgnore"/>
+      <rect x="70" y="20" width="660" height="400" fill="none" stroke="#D4DBE2"/>
+    </svg></div>
+    <div class="simctl"><span class="slbl mono">%C <b id="eqCv">0,45</b></span>
+      <input id="eqC" type="range" min="2" max="150" value="45" aria-label="Teor de carbono"></div>
+    <div class="simctl"><span class="slbl mono">T <b id="eqTv">850 °C</b></span>
+      <input id="eqT" type="range" min="450" max="1550" step="5" value="850" aria-label="Temperatura"></div>
+    <div class="btnrow" id="eqTabs" style="margin:10px 0 6px">
+      <button class="chip evt sel" data-v="micro">Microestrutura</button>
+      <button class="chip evt" data-v="atom">Escala atômica</button>
+    </div>
+    <div class="microwrap" id="eqWrapMicro">
+      <div class="microhead"><span id="eqRegion">Austenita γ</span><span id="eqTT">850 °C</span></div>
+      <canvas id="eqCv2" data-h="230" role="img" aria-label="Microestrutura de equilíbrio esquemática no ponto escolhido do diagrama ferro-carbono"></canvas>
+      <div class="microfoot">Microestrutura de equilíbrio no ponto do alvo · esquemática</div>
+    </div>
+    <div class="microwrap" id="eqWrapAtom" style="margin-top:8px;display:none">
+      <div class="microhead"><span>Escala atômica</span><span id="eqAtomInfo">γ · CFC</span></div>
+      <canvas id="eqAtom" data-h="150" role="img" aria-label="Rede cristalina animada da fase de equilíbrio: ferro em azul, carbono em vermelho"></canvas>
+      <div class="microfoot">Fe azul · C vermelho · vibração e saltos de difusão ∝ temperatura</div>
+    </div>
+    <div class="fracbar" id="eqFrac"></div>
+    <div class="legend" id="eqLegend"></div>
+    <div class="result" id="eqOut"></div>
+    <div class="result" id="fecInfo" style="background:#1B2430;color:#C7D2DD">Toque numa região do diagrama para identificá-la…</div>
+    <figcaption><span class="lvl">CÁLCULO DIDÁTICO</span> Fig. 1 — Diagrama Fe-Fe₃C metaestável. Os controles movem o <strong>alvo laranja</strong> e o microscópio mostra a microestrutura de equilíbrio, com frações pela <strong>regra da alavanca</strong>. Experimente descer com 0,45 %C do líquido até a ambiente: é a história completa de uma solidificação lenta.</figcaption>
+  </div>
+
+<h3>1.4 As microestruturas que você precisa reconhecer</h3>
+  <div class="tscroll" role="region" aria-label="tabela rolável"><span class="scrollhint">↔ arraste a tabela</span><table>
+    <tr><th>Constituinte</th><th>O que é</th><th>Dureza típica</th><th>Como se forma</th></tr>
+    <tr><td><strong>Ferrita</strong></td><td>Solução sólida de C em Fe-α</td><td class="num">~80–100 HB</td><td>Resfriamento lento de hipoeutetoide (pró-eutetoide) ou recozimento</td></tr>
+    <tr><td><strong>Cementita (Fe₃C)</strong></td><td>Carboneto de ferro, 6,67 %C, ortorrômbico</td><td class="num">~800 HV</td><td>Precipitação; dura e frágil — em rede contínua é desastrosa para tenacidade</td></tr>
+    <tr><td><strong>Perlita</strong></td><td>Lamelas alternadas α + Fe₃C (~88/12)</td><td class="num">200–300 HB</td><td>Difusão a T alta (nariz da TTT ~550–650 °C). Quanto mais fina, mais dura</td></tr>
+    <tr><td><strong>Bainita superior</strong></td><td>Ripas de ferrita com carbonetos <em>entre</em> as ripas</td><td class="num">~30–45 HRC</td><td>Transformação isotérmica ~350–550 °C</td></tr>
+    <tr><td><strong>Bainita inferior</strong></td><td>Ferrita acicular com carbonetos <em>dentro</em> das placas</td><td class="num">~45–55 HRC</td><td>~Ms a 350 °C; excelente combinação dureza × tenacidade (austêmpera)</td></tr>
+    <tr><td><strong>Martensita</strong></td><td>Solução TCC supersaturada em C, adifusional</td><td class="num">até ~65 HRC</td><td>Resfriamento mais rápido que a velocidade crítica; cresce à velocidade do som no metal</td></tr>
+    <tr><td><strong>Austenita retida</strong></td><td>γ que não transformou (Mf abaixo da T ambiente)</td><td class="num">~150–300 HV</td><td>Aços alto C / alta liga; instável dimensionalmente — ver Módulo 4</td></tr>
+  </table></div>
+
+
+  <h3>1.5 Atlas visual: como cada microestrutura se organiza</h3>
+  <p>O que muda de uma para outra não é "o material" — é <strong>como o carbono está arranjado</strong> e <strong>quão fino é o arranjo</strong>. Toda propriedade mecânica sai daqui. Toque em cada campo para ler o que ele explica.</p>
+  <div class="gallery" id="gallery">
+    <figure class="gcell"><canvas class="gc" data-preset="pgrossa" data-h="150"></canvas>
+      <figcaption><b>Perlita grossa</b> + ferrita — recozido lento. Lamelas largas (λ ~0,5 µm): a discordância percorre trechos longos de ferrita macia antes de topar numa lamela de cementita. <b>Mole e dúctil</b> (~180 HB).</figcaption></figure>
+    <figure class="gcell"><canvas class="gc" data-preset="pfina" data-h="150"></canvas>
+      <figcaption><b>Perlita fina</b> — normalizado. Mesmas fases, mesma quantidade de carbono, <b>lamelas 5× mais próximas</b> (λ ~0,15 µm). Mais barreiras por micrômetro → <b>~2× mais dura</b> (~280 HB). A prova de que <i>espaçamento é propriedade</i>.</figcaption></figure>
+    <figure class="gcell"><canvas class="gc" data-preset="esfero" data-h="150"></canvas>
+      <figcaption><b>Esferoidita</b> — cementita globulizada em matriz ferrítica contínua. Área de interface mínima → o caminho da discordância é quase todo ferrita. <b>A estrutura mais macia possível</b> (~160 HB): usinagem e conformação de aços alto C.</figcaption></figure>
+    <figure class="gcell"><canvas class="gc" data-preset="bainita" data-h="150"></canvas>
+      <figcaption><b>Bainita inferior</b> — ripas aciculares de ferrita com carbonetos finos <i>dentro</i> das placas, a 60° do eixo. Sem lamelas, sem tensão de martensita: <b>dureza alta com tenacidade</b> (~45–55 HRC). É o produto da austêmpera.</figcaption></figure>
+    <figure class="gcell"><canvas class="gc" data-preset="mart" data-h="150"></canvas>
+      <figcaption><b>Martensita não revenida</b> — placas/ripas que cortam o grão em variantes cristalográficas, formadas por <b>cisalhamento</b>, sem difusão. Carbono preso nos interstícios distorce a rede (TCC) → <b>dureza máxima e fragilidade máxima</b>. Note o azul da <b>austenita retida</b> entre as placas.</figcaption></figure>
+    <figure class="gcell"><canvas class="gc" data-preset="revenida" data-h="150"></canvas>
+      <figcaption><b>Martensita revenida</b> — mesmas ripas, agora com o carbono <b>precipitado</b> como carbonetos finos (pontos escuros) e a rede relaxada. Perde ~10 HRC e ganha várias vezes em tenacidade. <b>É a microestrutura de quase toda peça beneficiada.</b></figcaption></figure>
+  </div>
+  <div class="callout blue"><span class="tag">A regra que une tudo</span>
+  <p>Dureza vem de <strong>obstáculos ao movimento de discordâncias</strong>. Cada microestrutura oferece um tipo: <em>lamelas</em> (perlita — quanto mais próximas, melhor), <em>partículas finas</em> (bainita, martensita revenida, aços com dureza secundária), <em>rede distorcida + carbono intersticial</em> (martensita), <em>contornos de grão</em> (Hall-Petch: σ ∝ 1/√d — por isso grão fino melhora <strong>resistência e tenacidade ao mesmo tempo</strong>, algo raríssimo em metalurgia). O tratamento térmico é, literalmente, engenharia de obstáculos.</p></div>
+
+  <div class="callout blue"><span class="tag">Dureza da martensita = f(%C), não da liga</span>
+  <p>A dureza <strong>máxima</strong> da martensita depende quase só do carbono: 0,2 %C → ~45 HRC · 0,4 %C → ~57 HRC · 0,6 %C → ~64 HRC · &gt;0,8 %C → satura em ~65–66 HRC. Elementos de liga (Cr, Mo, Ni, Mn) <strong>não aumentam essa dureza máxima</strong> — eles aumentam a <em>temperabilidade</em>, isto é, a capacidade de atingir martensita em seções maiores e com resfriamentos mais brandos. Confundir dureza com temperabilidade é o erro conceitual nº 1 da área.</p></div>
+
+  <h3>1.6 Martensita em detalhe: Ms, Mf e a equação de Andrews</h3>
+  <p>A transformação martensítica é <strong>atérmica</strong>: a fração transformada depende de quanto se desce abaixo de <code>Ms</code>, não do tempo. <code>Ms</code> cai com C e elementos de liga (Andrews, 1965, válida para C &lt; 0,6 %):</p>
+  <p class="mono" style="background:#E4E9EE;padding:10px 14px;border-radius:6px;max-width:640px">Ms (°C) = 539 − 423·%C − 30,4·%Mn − 17,7·%Ni − 12,1·%Cr − 7,5·%Mo</p>
+  <div class="card">
+    <h4>Calculadora de Ms (Andrews) <span class="lvl">CÁLCULO DIDÁTICO</span></h4>
+    <div class="calc">
+      <div><label>%C</label><input id="msC" type="number" step="0.01" min="0" value="0.40"></div>
+      <div><label>%Mn</label><input id="msMn" type="number" step="0.01" min="0" value="0.85"></div>
+      <div><label>%Ni</label><input id="msNi" type="number" step="0.01" min="0" value="1.70"></div>
+      <div><label>%Cr</label><input id="msCr" type="number" step="0.01" min="0" value="0.80"></div>
+      <div><label>%Mo</label><input id="msMo" type="number" step="0.01" min="0" value="0.25"></div>
+    </div>
+    <div class="result" id="msOut"></div>
+  </div>
+  <p><em>Regra prática (aproximação grosseira — Mf real depende de composição, estabilização e histórico térmico; para projeto, use dilatometria):</em> Mf ≈ Ms − 215 °C. Se Mf cair abaixo da temperatura do meio de têmpera, sobra <strong>austenita retida</strong> — por isso aços com &gt;0,5 %C + liga quase sempre retêm γ e podem exigir tratamento subzero ou revenidos múltiplos.</p>
+
+  <h3>1.7 Tamanho de grão austenítico</h3>
+  <p>O grão γ formado na austenitização é herdado por tudo que vem depois: martensita grosseira vem de grão γ grosseiro. Medido por <strong>ASTM E112</strong> (número G: quanto maior, mais fino; G8 já é fino, G5 é grosseiro). Superaquecer ou manter tempo excessivo na austenitização cresce o grão e derruba tenacidade e resistência à fadiga. <strong>Al, Nb, V e Ti</strong> formam precipitados (AlN, NbC, VC) que ancoram contornos e seguram o crescimento — é por isso que aços "acalmados ao alumínio" e microligados mantêm grão fino mesmo em cementação a 930 °C.</p>
+<div class="pager"><span></span><button class="pgbtn next" data-go="m2">Cinética ›</button></div></section>
+
+<!-- ============================================================ MÓDULO 2 -->
+<section class="module" id="m2">
+  <div class="eyebrow">Módulo 2 · O tempo entra em cena</div>
+  <h2>Cinética: curvas TTT/CCT e temperabilidade</h2>
+  <p class="lead">O diagrama Fe-C diz <strong>o que</strong> é estável; as curvas TTT/CCT dizem <strong>quanto tempo</strong> cada transformação leva. É aqui que se decide, na prática, se uma peça vira perlita, bainita ou martensita — e se o meio de têmpera escolhido dá conta da seção da peça.</p>
+
+  <h3>2.1 TTT × CCT — não confunda</h3>
+  <ul class="tight">
+    <li><strong>TTT (isotérmico)</strong>: austenitiza, resfria <em>instantaneamente</em> até uma temperatura e mantém. Mede início/fim da transformação naquela temperatura. Base conceitual da austêmpera e martêmpera.</li>
+    <li><strong>CCT (resfriamento contínuo)</strong>: mede transformações durante resfriamento contínuo — é o que acontece na têmpera real. As curvas CCT ficam deslocadas <em>para baixo e para a direita</em> em relação à TTT do mesmo aço. Para dimensionar têmpera industrial, use CCT.</li>
+  </ul>
+  <p>O ponto mais à esquerda da curva é o <strong>nariz</strong> (~500–600 °C nos aços C-Mn). Para obter 100 % martensita é preciso "passar pelo nariz" sem tocá-lo — essa é a <strong>velocidade crítica de têmpera</strong>. Elementos de liga empurram o nariz para a direita: segundos viram minutos, e um aço passa a temperar em óleo, ou até ao ar.</p>
+
+  <h3>2.2 Simulador didático de transformações — curvas esquemáticas <span class="lvl">CÁLCULO DIDÁTICO</span></h3>
+  <p>Escolha o <strong>aço</strong> (as curvas TTT se reposicionam com a liga — repare no nariz correndo para a direita), o tratamento e o grão. Arraste o tempo ou aperte <strong>Reproduzir</strong>: a vista ao microscópio mostra os grãos transformando naquele instante, e as frações respondem à curva <em>daquele aço</em>. As trajetórias são <strong>esquemáticas</strong>, da ordem do meio-raio de uma barra Ø25 mm; não há cálculo de transferência de calor, geometria ou agitação. Ferramenta para <strong>entender tendências</strong> — para definir ciclo real, use a curva CCT/Jominy da corrida e os dados do fornecedor.</p>
+  <div class="figwrap">
+    <div class="btnrow" id="steelBtns">
+      <button class="chip stl" data-s="s1020">1020</button>
+      <button class="chip stl" data-s="s1045">1045</button>
+      <button class="chip stl sel" data-s="s4140">4140</button>
+      <button class="chip stl" data-s="s4340">4340</button>
+      <button class="chip stl" data-s="s8620">8620</button>
+      <button class="chip stl" data-s="sh13">H13</button>
+    </div>
+    <div class="btnrow" id="tttBtns">
+      <button class="chip sel" data-p="agua">Têmpera em água</button>
+      <button class="chip" data-p="oleo">Têmpera em óleo</button>
+      <button class="chip" data-p="martemp">Martêmpera</button>
+      <button class="chip" data-p="austemp">Austêmpera</button>
+      <button class="chip" data-p="normal">Resfriamento ao ar</button>
+      <button class="chip" data-p="recoz">Recozimento (forno)</button>
+    </div>
+    <div class="calc">
+      <div><label>Grão austenítico</label><select id="simG">
+        <option value="fino" selected>Fino (ASTM ~8)</option>
+        <option value="grosso">Grosso (ASTM ~4)</option>
+      </select></div>
+      <div><label>Composição do aço</label><div class="steelinfo mono" id="steelInfo">—</div></div>
+    </div>
+
+    <span class="scrollhint">↔ arraste o diagrama para ampliar</span>
+    <div class="svgscroll"><svg viewBox="0 0 760 440" width="100%" role="img" aria-label="Diagrama TTT do aço selecionado com trajetória de resfriamento">
+      <line x1="70" y1="30" x2="70" y2="400" stroke="#18202B" stroke-width="1.5"/>
+      <line x1="70" y1="400" x2="730" y2="400" stroke="#18202B" stroke-width="1.5"/>
+      <g font-size="11" fill="#55677A">
+        <text x="40" y="404">0</text><text x="30" y="322">200</text><text x="30" y="240">400</text><text x="30" y="157">600</text><text x="30" y="75">800</text>
+        <text x="14" y="230" transform="rotate(-90 14 230)">Temperatura (°C)</text>
+        <text x="62" y="418">0,1</text><text x="176" y="418">1</text><text x="282" y="418">10</text><text x="384" y="418">10²</text><text x="494" y="418">10³</text><text x="604" y="418">10⁴</text><text x="708" y="418">10⁵ s</text>
+        <text x="330" y="436">Tempo (escala log)</text>
+      </g>
+      <g stroke="#E6EAEE"><line x1="180" y1="30" x2="180" y2="400"/><line x1="290" y1="30" x2="290" y2="400"/><line x1="400" y1="30" x2="400" y2="400"/><line x1="510" y1="30" x2="510" y2="400"/><line x1="620" y1="30" x2="620" y2="400"/></g>
+      <line x1="70" y1="101" x2="730" y2="101" stroke="#B3400F" stroke-width="1.6" stroke-dasharray="6 4"/>
+      <text x="628" y="95" font-size="11" fill="#B3400F" font-weight="600">A1 · 727 °C</text>
+      <!-- curvas dinâmicas por aço -->
+      <path id="fsC" fill="none" stroke="#5C7D3B" stroke-width="2"/>
+      <path id="ffC" fill="none" stroke="#5C7D3B" stroke-width="2" stroke-dasharray="6 4"/>
+      <path id="psC" fill="none" stroke="#2F6690" stroke-width="2.4"/>
+      <path id="pfC" fill="none" stroke="#2F6690" stroke-width="2.4" stroke-dasharray="7 5"/>
+      <path id="bsC" fill="none" stroke="#8A5A2B" stroke-width="2.2"/>
+      <path id="bfC" fill="none" stroke="#8A5A2B" stroke-width="2.2" stroke-dasharray="7 5"/>
+      <text id="lblF" font-size="11" fill="#5C7D3B" font-weight="700">F</text>
+      <text id="lblP" font-size="12" fill="#2F6690" font-weight="700">P</text>
+      <text id="lblB" font-size="12" fill="#8A5A2B" font-weight="700">B</text>
+      <line id="msLine" x1="70" y1="277" x2="730" y2="277" stroke="#6E4A72" stroke-width="1.8"/>
+      <line id="mfLine" x1="70" y1="351" x2="730" y2="351" stroke="#6E4A72" stroke-width="1.4" stroke-dasharray="5 4"/>
+      <text id="msLbl" x="600" y="271" font-size="11" fill="#6E4A72" font-weight="700">Ms</text>
+      <text id="mfLbl" x="600" y="345" font-size="11" fill="#6E4A72" font-weight="700">Mf</text>
+      <path id="coolPath" d="" fill="none" stroke="#B3400F" stroke-width="3.2" stroke-linecap="round" opacity="0.32"/>
+      <path id="coolDone" d="" fill="none" stroke="#B3400F" stroke-width="3.6" stroke-linecap="round"/>
+      <rect x="70" y="30" width="660" height="370" fill="none" stroke="#D4DBE2"/>
+    </svg></div>
+
+    <div class="simctl">
+      <button id="playBtn" class="chip sel">▶ Reproduzir</button>
+      <input id="scrub" type="range" min="0" max="1000" value="0" aria-label="Tempo do ciclo">
+    </div>
+    <div class="btnrow" id="diaRow" style="margin-top:0">
+      <button class="chip dia sel" data-dia="1">Ø 25 mm</button>
+      <button class="chip dia" data-dia="4.5">Ø 100 mm</button>
+      <button class="chip dia" data-dia="16">Ø 300 mm</button>
+    </div>
+    <div class="btnrow" id="posRow" style="margin-top:0">
+      <button class="chip pos" data-pos="0.5">Superfície</button>
+      <button class="chip pos sel" data-pos="1">Meio raio</button>
+      <button class="chip pos" data-pos="2.8">Núcleo</button>
+    </div>
+    <p style="font-size:12.5px;color:var(--steel);margin:2px 0 8px">Troque diâmetro e posição <strong>a qualquer momento</strong> — o instante do ciclo é mantido para comparação. Repare: a curva da <strong>superfície quase não muda com o Ø</strong> (quem manda ali é o meio de têmpera); é o <strong>meio-raio e sobretudo o núcleo</strong> que desaceleram com a seção. Por isso barras grossas endurecem na casca e perdem o núcleo — temperabilidade é sempre <em>relativa à seção</em>.</p>
+    <div class="btnrow" id="viewTabs" style="margin-top:0">
+      <button class="chip vt sel" data-v="metal">Metalográfica</button>
+      <button class="chip vt" data-v="atom">Escala atômica</button>
+    </div>
+
+    <div class="microwrap">
+      <div class="microhead"><span id="microName">Vista ao microscópio</span><span id="microT">850 °C</span></div>
+      <canvas id="micro" data-h="260" role="img" aria-label="Vista esquemática ao microscópio: grãos transformando conforme o ciclo simulado"></canvas>
+      <canvas id="simAtom" data-h="260" style="display:none" role="img" aria-label="Rede cristalina animada da fase dominante no ciclo simulado"></canvas>
+      <div class="microfoot" id="microFoot">Corte transversal esquemático · ataque nital 2 % · escala ilustrativa</div>
+    </div>
+
+    <div class="fracbar" id="fracBar"></div>
+    <div class="legend" id="legend"></div>
+    <div class="result" id="simOut"></div>
+    <figcaption>Fig. 2 — Curvas TTT reposicionadas por aço (posições de nariz, baía de bainita e Ms baseadas nos atlas isotérmicos típicos de cada liga; use o atlas do fornecedor para projeto). Linha cheia = início · tracejada = fim. Verde = ferrita, azul = perlita, marrom = bainita. Martensita: Koistinen–Marburger. <strong>Ferramenta didática — não usar para aprovar ou definir ciclo industrial.</strong></figcaption>
+  </div>
+
+  <h3>2.3 Temperabilidade: Jominy, Grossmann e severidade H</h3>
+  <p><strong>Temperabilidade</strong> é a profundidade até a qual um aço endurece — normalmente definida como a distância onde se obtém 50 % martensita. Dois formalismos clássicos:</p>
+  <ul class="tight">
+    <li><strong>Ensaio Jominy</strong> (ASTM A255 / ISO 642): corpo de prova Ø25×100 mm austenitizado e resfriado por jato d'água numa extremidade. Mede-se dureza ao longo do comprimento → curva HRC × distância J (ex.: <code>J = 45 HRC @ 10 mm</code>). Aços "H" (4140H, 8620H) têm <strong>banda de temperabilidade garantida</strong> por norma.</li>
+    <li><strong>Grossmann</strong>: diâmetro crítico ideal <code>Dᵢ</code> = maior diâmetro que forma 50 % martensita no centro sob têmpera "infinita". <code>Dᵢ = D_base(%C, grão) × f_Mn × f_Cr × f_Mo × …</code> — fatores multiplicativos por elemento. Mn, Mo e Cr têm fatores altos; por isso pequenas adições rendem muito.</li>
+  </ul>
+  <div class="tscroll" role="region" aria-label="tabela rolável"><span class="scrollhint">↔ arraste a tabela</span><table>
+    <tr><th>Meio de têmpera</th><th>Severidade H (sem agitação)</th><th>H (agitação forte)</th></tr>
+    <tr><td>Salmoura (NaCl ~10 %)</td><td class="num">2,0</td><td class="num">até 5</td></tr>
+    <tr><td>Água</td><td class="num">0,9–1,0</td><td class="num">1,5–2,0</td></tr>
+    <tr><td>Polímero PAG (conc. controla)</td><td class="num">0,4–1,1</td><td class="num">—</td></tr>
+    <tr><td>Óleo rápido (acelerado)</td><td class="num">0,4–0,5</td><td class="num">0,8–1,1</td></tr>
+    <tr><td>Óleo convencional</td><td class="num">0,25–0,30</td><td class="num">0,4–0,6</td></tr>
+    <tr><td>Sal fundido (martêmpera)</td><td class="num">~0,3–0,5</td><td class="num">—</td></tr>
+    <tr><td>Ar calmo</td><td class="num">0,02</td><td class="num">0,05 (forçado)</td></tr>
+  </table></div>
+  <div class="callout"><span class="tag">Boro: o elemento mais eficiente por ppm</span>
+  <p>10–30 <strong>ppm</strong> de B segregam nos contornos de grão γ e retardam a nucleação de ferrita, multiplicando a temperabilidade — desde que o B esteja protegido do N (por Ti). É a base dos aços 10B22, 15B30 usados em parafusos e implementos. Nenhum outro elemento entrega tanto com tão pouco.</p></div>
+
+  <h3>2.4 Quem empurra a curva para a direita</h3>
+  <div class="tscroll" role="region" aria-label="tabela rolável"><span class="scrollhint">↔ arraste a tabela</span><table>
+    <tr><th>Elemento</th><th>Efeito na TTT/CCT</th><th>Observação</th></tr>
+    <tr><td>Mn, Ni</td><td>Retardam ferrita/perlita (γ-gênicos)</td><td>Ni também baixa a T de transição dúctil-frágil</td></tr>
+    <tr><td>Cr, Mo</td><td>Retardam fortemente e separam as curvas de perlita e bainita ("baía")</td><td>Origem dos diagramas com duas "barrigas" dos aços ligados</td></tr>
+    <tr><td>B</td><td>Retarda ferrita em ppm</td><td>Só em aços acalmados/protegidos com Ti</td></tr>
+    <tr><td>Co</td><td><strong>Acelera</strong> (desloca à esquerda)</td><td>Exceção clássica de prova</td></tr>
+    <tr><td>C</td><td>Aumenta temperabilidade e baixa Ms</td><td>Acima de ~0,6 % aumenta risco de trinca e γ retida</td></tr>
+  </table></div>
+<div class="pager"><button class="pgbtn" data-go="m1">‹ Fundamentos</button><button class="pgbtn next" data-go="m3">Recozimentos ›</button></div></section>
+
+<!-- ============================================================ MÓDULO 3 -->
+<section class="module" id="m3">
+  <div class="eyebrow">Módulo 3 · Amolecer com propósito</div>
+  <h2>Recozimentos, normalização e alívio de tensões</h2>
+  <p class="lead">"Recozer" não é um tratamento — é uma <strong>família</strong> de tratamentos com objetivos distintos: amolecer para usinar, regenerar estrutura bruta de fusão/forjamento, esferoidizar para conformar, recristalizar após encruamento ou apenas aliviar tensões sem tocar na microestrutura. Especificar o recozimento errado custa horas de forno e propriedades.</p>
+
+  <h3>3.1 Mapa da família</h3>
+  <div class="tscroll" role="region" aria-label="tabela rolável"><span class="scrollhint">↔ arraste a tabela</span><table>
+    <tr><th>Tratamento</th><th>Temperatura</th><th>Resfriamento</th><th>Microestrutura / objetivo</th></tr>
+    <tr><td><strong>Recozimento pleno</strong></td><td class="num">Ac3 + 30–50 °C (hipo)<br>Ac1 + 50 °C (hiper)</td><td>Dentro do forno (≤ ~30 °C/h até ~600 °C)</td><td>Perlita grossa + ferrita; dureza mínima, máxima ductilidade. Lento e caro.</td></tr>
+    <tr><td><strong>Recozimento isotérmico</strong></td><td class="num">Austenitiza e transforma a ~600–680 °C</td><td>Patamar isotérmico, depois ar</td><td>Mesmo resultado do pleno em fração do tempo; ideal p/ lotes de forjados (ex.: engrenagens antes da usinagem)</td></tr>
+    <tr><td><strong>Esferoidização</strong></td><td class="num">Oscilando em torno de A1 (~690–750 °C), 4–24 h</td><td>Muito lento</td><td>Cementita globular em matriz ferrítica: a estrutura <em>mais macia possível</em> de um aço. Obrigatória p/ conformar ou usinar aços &gt;0,6 %C (rolamento 52100 é fornecido assim)</td></tr>
+    <tr><td><strong>Recozimento subcrítico</strong></td><td class="num">550–700 °C (abaixo de A1)</td><td>Ar</td><td>Recuperação/recristalização parcial sem re-austenitizar; barato</td></tr>
+    <tr><td><strong>Recristalização</strong></td><td class="num">~0,4·T_fusão; aços: 550–700 °C</td><td>Ar</td><td>Novos grãos equiaxiais após trabalho a frio; controla textura e grão em chapas</td></tr>
+    <tr><td><strong>Alívio de tensões</strong></td><td class="num">550–650 °C (aço C); 30–90 min/25 mm</td><td>Lento até ~300 °C</td><td><strong>Sem transformação de fase.</strong> Relaxa tensões de soldagem/usinagem/têmpera por fluência local. Base do TTAT/PWHT de vasos (ASME VIII, NR-13)</td></tr>
+    <tr><td><strong>Homogeneização</strong></td><td class="num">1100–1200 °C, horas</td><td>—</td><td>Dissolve segregação dendrítica de lingotes/fundidos; grão cresce muito → exige normalização posterior</td></tr>
+    <tr><td><strong>Normalização</strong></td><td class="num">Ac3 (ou Acm) + 40–60 °C</td><td><strong>Ar calmo</strong></td><td>Perlita fina + grão refinado e homogêneo; ~10–20 % mais duro que recozido. Regenera forjados e fundidos, prepara estrutura uniforme p/ têmpera posterior</td></tr>
+  </table></div>
+
+  <div class="callout blue"><span class="tag">Normalizar ≠ recozer</span>
+  <p>A diferença é só a taxa de resfriamento (ar × forno), mas o resultado é conceitualmente distinto: a normalização resfria mais rápido, gera perlita <strong>mais fina</strong> (maior resistência) e, principalmente, <strong>refina e uniformiza o grão</strong> — por isso é o tratamento de "reset" após forjamento, laminação a quente ou soldagem pesada. Em peças espessas, o centro resfria mais devagar que a superfície: normalização de seções grandes produz propriedades heterogêneas, e é por isso que normas de vasos e forjados limitam propriedades por faixa de espessura.</p></div>
+
+  <h3>3.2 Alívio de tensões na prática (o que você especifica em desenho)</h3>
+  <ul class="tight">
+    <li><strong>Mecanismo:</strong> a tensão residual não pode exceder o limite de escoamento na temperatura do tratamento. A 600 °C o LE do aço C cai para ~1/3 → tensões relaxam por microfluência.</li>
+    <li><strong>Parâmetros usuais (aço C-Mn):</strong> 590–650 °C, 1 h por polegada de espessura (mín. 1 h), aquecimento/resfriamento ≤ 150–220 °C/h acima de 300–400 °C para não criar novas tensões térmicas.</li>
+    <li><strong>Cuidado com aços temperados e revenidos:</strong> o alívio deve ficar <strong>≥ 25–50 °C abaixo do último revenido</strong>, senão a peça amolece abaixo do especificado.</li>
+    <li><strong>Cr-Mo (ex.: 42CrMo4 soldado):</strong> atenção à fragilização ao revenido reversível na faixa 450–550 °C (Módulo 4) — atravesse a faixa, não estacione nela.</li>
+  </ul>
+<div class="pager"><button class="pgbtn" data-go="m2">‹ Cinética</button><button class="pgbtn next" data-go="m4">Têmpera & Revenido ›</button></div></section>
+
+<!-- ============================================================ MÓDULO 4 -->
+<section class="module" id="m4">
+  <div class="eyebrow">Módulo 4 · O coração do endurecimento</div>
+  <h2>Têmpera, revenido e os tratamentos isotérmicos</h2>
+  <p class="lead">Como regra geral, têmpera sem revenido é uma peça em estado de tensão com alto risco de trincar (exceções existem — algumas condições de fornecimento e sequências específicas —, mas são controladas por procedimento). Este módulo cobre o ciclo completo: austenitização correta, física do resfriamento em líquidos, os quatro estágios do revenido, as duas fragilizações, austenita retida, subzero, martêmpera e austêmpera.</p>
+
+  <h3>4.1 Austenitização: onde a têmpera é ganha ou perdida</h3>
+  <ul class="tight">
+    <li><strong>Hipoeutetoides:</strong> Ac3 + 30–50 °C. Abaixo disso sobra ferrita não dissolvida (pontos moles); acima, grão cresce.</li>
+    <li><strong>Hipereutetoides e aços-ferramenta:</strong> entre Ac1 e Acm (têmpera <em>intercrítica</em>), tipicamente Ac1 + 50–70 °C. Dissolver <em>todos</em> os carbonetos seria um erro: dispararia o C em solução → Ms despenca → austenita retida excessiva + grão grosso. Os carbonetos não dissolvidos ainda ancoram o grão e dão resistência ao desgaste.</li>
+    <li><strong>Encharque:</strong> regra prática 20–30 min por 25 mm de seção após a peça atingir a temperatura (varia com forno, carga e liga; aços alta liga a vácuo usam patamares de equalização escalonados).</li>
+    <li><strong>Atmosfera:</strong> ar do forno descarboneta e oxida — para peças acabadas use atmosfera controlada (endogás com potencial C casado ao aço), vácuo ou caixa/pasta protetora. Descarbonetação superficial = dureza baixa na medição e fadiga comprometida.</li>
+  </ul>
+
+  <h3>4.2 Física do resfriamento em líquidos: os 3 estágios</h3>
+  <ol class="tight">
+    <li><strong>Camada de vapor (Leidenfrost):</strong> filme de vapor isola a peça — resfriamento <em>lento</em>. Vilão dos pontos moles: o filme colapsa antes em cantos e depois em cavidades.</li>
+    <li><strong>Ebulição nucleada:</strong> bolhas se formam e destacam na superfície — é o estágio de <strong>máxima extração de calor</strong> (pode passar de 1000 °C/s localmente).</li>
+    <li><strong>Convecção:</strong> abaixo do ponto de ebulição do meio — resfriamento lento de novo. É aqui que a martensita se forma (abaixo de Ms): convecção lenta = menos distorção.</li>
+  </ol>
+  <p>Agitação, temperatura do banho e aditivos (sais na água, polímero PAG) existem para <strong>encurtar o estágio 1</strong> e uniformizar o estágio 2. O óleo de têmpera ideal quebra o filme de vapor rápido, extrai forte no nariz da CCT e resfria devagar na faixa martensítica — exatamente o perfil que a água não tem (água é violenta justamente abaixo de 300 °C, onde mais dói).</p>
+
+  <h3>4.3 Revenido: os 4 estágios</h3>
+  <p>Martensita como temperada é supersaturada, tensionada e frágil. O revenido troca dureza por tenacidade de forma <em>controlada</em>:</p>
+  <div class="tscroll" role="region" aria-label="tabela rolável"><span class="scrollhint">↔ arraste a tabela</span><table>
+    <tr><th>Estágio</th><th>Faixa</th><th>O que acontece</th></tr>
+    <tr><td><strong>1º</strong></td><td class="num">80–200 °C</td><td>Precipitação de carboneto ε (Fe₂,₄C); martensita perde tetragonalidade. Dureza cai pouco. Ferramentas de corte e cementados revenidos aqui (150–200 °C)</td></tr>
+    <tr><td><strong>2º</strong></td><td class="num">200–300 °C</td><td>Austenita retida se decompõe em bainita/ferrita + cementita (nos aços C; em alta liga só acima de 500 °C)</td></tr>
+    <tr><td><strong>3º</strong></td><td class="num">250–400 °C</td><td>ε → cementita Fe₃C; martensita vira "martensita revenida" (ferrita acicular + carbonetos). Queda franca de dureza</td></tr>
+    <tr><td><strong>4º</strong></td><td class="num">500–650 °C (aços ligados)</td><td>Precipitação de carbonetos de liga finos (Mo₂C, V₄C₃, W₂C, Cr₇C₃) → <strong>endurecimento secundário</strong>. Base dos aços H13, M2, aços rápidos</td></tr>
+  </table></div>
+
+  <h3>4.4 As duas fragilizações que você precisa evitar</h3>
+  <div class="grid2">
+    <div class="card"><h4>Fragilização da martensita revenida (TME)</h4>
+    <p><strong>250–400 °C, irreversível.</strong> Filmes de cementita nos contornos das ripas + segregação de P/S. Regra de ouro: <strong>não revenir nessa faixa</strong> — ou abaixo de 250 °C, ou acima de 425 °C. <em>Nota terminológica:</em> "fragilidade azul" é expressão usada de forma variável na literatura (classicamente designa o envelhecimento dinâmico ~200–350 °C em aços ferríticos) — não trate os termos como sinônimos.</p></div>
+    <div class="card"><h4>Fragilização ao revenido (reversível / Krupp)</h4>
+    <p><strong>450–600 °C, reversível.</strong> Segregação de P, Sn, Sb, As nos contornos de grão γ prévios durante permanência ou resfriamento lento na faixa. Afeta Cr-Ni e Cr-Mn (4340, 42CrMo4 é parcialmente protegido). Antídotos: <strong>Mo 0,15–0,5 %</strong>, aços limpos, e resfriar em água/óleo após revenido acima de 600 °C para atravessar a faixa rápido. Diagnóstico: fratura intergranular + queda de energia Charpy; recuperável re-revenindo acima de 600 °C + resfriamento rápido.</p></div>
+  </div>
+
+  <h3>4.5 Curva de revenido e o parâmetro de Hollomon-Jaffe</h3>
+  <p>Tempo e temperatura de revenido são intercambiáveis via <code>P = T·(20 + log t)</code> (T em Kelvin, t em horas): 2 h a 600 °C ≈ 4,5 h a 585 °C. Use P para transpor uma curva de catálogo (frequentemente levantada com tempo fixo — confira no catálogo) para o seu ciclo real. Aços ao C têm curva monotônica decrescente; aços com Mo/V/W/Cr mostram o <strong>pico de dureza secundária</strong> em 500–560 °C — o H13 <em>sobe</em> de ~52 para ~54 HRC antes de cair.</p>
+  <div class="callout"><span class="tag">Regras operacionais de revenido</span>
+  <p>① Revenir <strong>imediatamente</strong> após a têmpera (peça a 50–80 °C; deixar peça temperada sem revenir de um dia para o outro convida trinca espontânea) — boa prática geral, com exceções apenas por procedimento controlado. ② Aços-ferramenta e cementados de alta liga: <strong>duplo ou triplo revenido</strong> — o 1º reveste a martensita e desestabiliza a γ retida, que transforma em martensita <em>nova</em> no resfriamento; o 2º revine essa martensita nova. ③ Dureza final é definida pelo revenido, não pela têmpera: temperar visa dureza máxima; revenir ajusta ao especificado.</p></div>
+
+  <h3>4.6 Austenita retida e tratamento subzero</h3>
+  <ul class="tight">
+    <li><strong>Quando aparece:</strong> Mf abaixo da T do banho — aços &gt;0,5 %C, cementados (superfície com ~0,8 %C!), aços-ferramenta alta liga. Cementado típico: 15–30 % γ retida na camada.</li>
+    <li><strong>Problemas:</strong> dureza 2–5 HRC abaixo do potencial; instabilidade dimensional (γ→α' em serviço = crescimento + tensões — fatal em calibres, rolamentos, moldes de precisão).</li>
+    <li><strong>Soluções:</strong> subzero convencional (−80 °C, gelo seco/freezer) ou criogênico (−196 °C, N₂ líquido, com taxas lentas), tipicamente entre têmpera e revenido, ou entre 1º e 2º revenidos em alta liga (aços-ferramenta sensíveis a trinca podem usar <em>snap temper</em> — revenido curto de alívio — antes do subzero); ou revenidos múltiplos. Em criogênico profundo de aços-ferramenta há ainda relato de precipitação de carbonetos η finos → +resistência ao desgaste.</li>
+  </ul>
+
+  <h3>4.7 Martêmpera e austêmpera</h3>
+  <div class="tscroll" role="region" aria-label="tabela rolável"><span class="scrollhint">↔ arraste a tabela</span><table>
+    <tr><th></th><th>Martêmpera (têmpera interrompida)</th><th>Austêmpera</th></tr>
+    <tr><td><strong>Ciclo</strong></td><td>Resfria em sal fundido/óleo quente <em>logo acima de Ms</em> (180–250 °C), equaliza a temperatura na seção, depois resfria ao ar através de Ms</td><td>Resfria até 260–400 °C e <strong>mantém até transformação completa</strong> em bainita (minutos a horas); sem revenido posterior</td></tr>
+    <tr><td><strong>Microestrutura</strong></td><td>Martensita (revenir depois normalmente)</td><td>Bainita <strong>inferior ou superior</strong>, conforme aço e T do patamar (T baixa, ~260–330 °C, favorece a inferior)</td></tr>
+    <tr><td><strong>Vantagem</strong></td><td>Toda a seção cruza Ms <em>junta</em> → distorção e risco de trinca mínimos</td><td>Tenacidade e ductilidade superiores à martensita revenida de mesma dureza (40–50 HRC); quase sem distorção</td></tr>
+    <tr><td><strong>Limite</strong></td><td>Exige temperabilidade suficiente (o sal é meio brando)</td><td>Seções finas ou aços de alta temperabilidade; tempo de patamar longo</td></tr>
+    <tr><td><strong>Aplicações</strong></td><td>Engrenagens, eixos, matrizes de precisão</td><td>Molas, clipes, lâminas, correntes — e <strong>ADI</strong> (ferro nodular austemperado: 850–1050 MPa com 10 % alongamento)</td></tr>
+  </table></div>
+
+  <h3>4.8 Cores de revenido (guia visual de oficina)</h3>
+  <p>Óxidos superficiais de espessura crescente produzem cores de interferência — termômetro visual clássico (aço C, ar, tempos curtos):</p>
+  <div class="temperscale">
+    <div style="background:#C9A227;color:#3A2E00">Palha claro<br>~220 °C</div>
+    <div style="background:#A9692B">Bronze<br>~240 °C</div>
+    <div style="background:#8A4A3B">Marrom-púrpura<br>~260 °C</div>
+    <div style="background:#6E4A72">Púrpura<br>~280 °C</div>
+    <div style="background:#33628F">Azul escuro<br>~300 °C</div>
+    <div style="background:#5E86A8">Azul claro<br>~330 °C</div>
+    <div style="background:#7C8B99">Cinza<br>~400 °C</div>
+  </div>
+  <p><em>Serve como indicativo — nunca como controle de processo. Em Cr alto, as cores deslocam para cima.</em></p>
+<div class="pager"><button class="pgbtn" data-go="m3">‹ Recozimentos</button><button class="pgbtn next" data-go="m5">Termoquímicos ›</button></div></section>
+
+<!-- ============================================================ MÓDULO 5 -->
+<section class="module" id="m5">
+  <div class="eyebrow">Módulo 5 · Endurecer só onde precisa — mudando a química</div>
+  <h2>Tratamentos termoquímicos</h2>
+  <p class="lead">Termoquímicos alteram a <strong>composição química da superfície</strong> por difusão (C, N, B…), criando o par ideal: casca dura e resistente ao desgaste + núcleo tenaz — e, de quebra, <strong>tensões residuais compressivas</strong> na superfície, que multiplicam a vida em fadiga. A escolha entre eles é uma decisão de temperatura (distorção!), profundidade, dureza e custo.</p>
+
+  <h3>5.1 Cementação (carbonetação)</h3>
+  <ul class="tight">
+    <li><strong>Princípio:</strong> difusão de C em austenita a 880–950 °C em aços baixo C (0,10–0,25 %) de famílias distintas: Ni-Cr-Mo (8620, 18CrNiMo7-6) e Mn-Cr (16MnCr5, 20MnCr5) — <em>não são equivalentes diretos entre si</em>. Superfície atinge 0,7–1,0 %C; <strong>têmpera + revenido baixo (150–200 °C)</strong> obrigatórios em seguida. Superfície: 58–62 HRC; núcleo: 30–45 HRC.</li>
+    <li><strong>Gasosa (padrão industrial):</strong> atmosfera endotérmica + gás natural/propano; o <strong>potencial de carbono</strong> (0,8–1,1 %) é controlado por sonda de oxigênio + analisador de CO. Ciclo <em>boost-diffuse</em>: satura a superfície acima do alvo e depois difunde, achatando o gradiente.</li>
+    <li><strong>Baixa pressão (LPC, a vácuo):</strong> pulsos de acetileno a ~900–1000 °C + têmpera em gás alta pressão (N₂/He 10–20 bar). Sem oxidação intergranular, peça limpa, menor distorção — padrão crescente em engrenagens de transmissão.</li>
+    <li><strong>Sólida (caixa) e líquida (banho de cianeto):</strong> legadas; a líquida em extinção por questões ambientais.</li>
+    <li><strong>Profundidade de camada (CHD, ISO 18203 / DIN EN ISO 2639):</strong> distância da superfície até <strong>550 HV1</strong>. Cresce com √t (lei parabólica).</li>
+  </ul>
+  <div class="card">
+    <h4>Estimativa didática de profundidade de difusão na cementação (Harris) <span class="lvl">CÁLCULO DIDÁTICO</span></h4>
+    <p style="font-size:13px;color:var(--steel)">d ≈ f·√t — fatores clássicos p/ aço-carbono/baixa liga em potencial C típico. <strong>Não equivale automaticamente a CHD 550 HV1</strong>: o critério de camada depende do aço, do potencial de C, do ciclo boost/diffuse, da têmpera e da dureza do núcleo.</p>
+    <div class="calc">
+      <div><label>Temperatura</label><select id="hzT"><option value="0.457">870 °C (f=0,457)</option><option value="0.533">900 °C (f=0,533)</option><option value="0.635" selected>925 °C (f=0,635)</option></select></div>
+      <div><label>Tempo (h)</label><input id="hzt" type="number" step="0.5" min="0" value="6"></div>
+      <div><label>Ou: profundidade alvo (mm)</label><input id="hzd" type="number" step="0.1" min="0" placeholder="ex. 1,2"></div>
+    </div>
+    <div class="result" id="hzOut"></div>
+  </div>
+
+  <h3>5.2 Nitretação</h3>
+  <ul class="tight">
+    <li><strong>Princípio:</strong> difusão de N a <strong>500–580 °C</strong> — abaixo de A1, <strong>sem têmpera posterior e sem transformação de fase</strong> → distorção mínima. É o tratamento de acabamento por excelência: a peça entra pronta (temperada e revenida <em>acima</em> da T de nitretação) e sai pronta.</li>
+    <li><strong>Estrutura da camada:</strong> ① <strong>camada branca/composta</strong> (5–25 µm de nitretos ε-Fe₂₋₃N e/ou γ'-Fe₄N) — dureza e resistência à corrosão/scuffing, mas frágil se espessa ou bifásica; ② <strong>zona de difusão</strong> (0,1–0,8 mm) — N em solução + nitretos finos de liga, onde mora a dureza de suporte e a compressão residual.</li>
+    <li><strong>Aços adequados:</strong> precisam de formadores de nitretos — <strong>Cr, Mo, V, Al</strong>. Clássicos: 31CrMoV9, 34CrAlNi7 (Nitralloy, até 1100–1200 HV), 42CrMo4 (~600–700 HV), H13 e <strong>1.2714/56NiCrMoV7</strong> (matrizes de forjamento: nitretação eleva vida por desgaste/fadiga térmica). Aço-carbono puro nitretado rende só ~350–450 HV.</li>
+    <li><strong>Processos:</strong> <em>gasosa</em> (NH₃, 20–100 h, controle por potencial de nitretação K_N, DIN 30902/AMS 2759-10); <em>plasma/iônica</em> (400–560 °C, controle fino da camada branca — inclusive suprimi-la —, ótima p/ furos e geometrias, permite mascaramento mecânico); <em>banho de sal</em>.</li>
+    <li><strong>NHD (profundidade de nitretação, DIN 50190-3):</strong> até dureza = núcleo + 50 HV.</li>
+  </ul>
+
+  <h3>5.3 Carbonitretação × Nitrocarbonetação — nomes parecidos, mundos diferentes</h3>
+  <div class="grid2">
+    <div class="card"><h4>Carbonitretação (austenítica)</h4>
+    <p><strong>820–900 °C</strong>, atmosfera de cementação + NH₃ (C <em>e</em> N difundem na austenita), seguida de têmpera. Camadas finas (0,1–0,75 mm) com temperabilidade aumentada pelo N → tempera em óleo até aço 1010/1020 barato. Perfeita para peças pequenas estampadas, pinos, engrenagens leves produzidas em massa.</p></div>
+    <div class="card"><h4>Nitrocarbonetação ferrítica (FNC / Tenifer / QPQ)</h4>
+    <p><strong>560–580 °C</strong>, curtíssima (1–4 h), gás ou banho de sal: forma rapidamente camada ε compacta (10–25 µm) + difusão rasa. <strong>Sem têmpera.</strong> Resistência a desgaste adesivo, engripamento e corrosão. Variante <strong>QPQ</strong> (quench-polish-quench com pós-oxidação): superfície preta, resistência à corrosão comparável a cromo duro — hastes hidráulicas, virabrequins, armas, válvulas industriais.</p></div>
+  </div>
+
+  <h3>5.4 Boretação e outros</h3>
+  <ul class="tight">
+    <li><strong>Boretação:</strong> 850–1000 °C em pó/pasta (B₄C + ativadores). Camada de boretos FeB/Fe₂B, morfologia dente-de-serra, <strong>1400–2000 HV</strong> — acima de qualquer nitretação. 20–300 µm. Risco: camada bifásica FeB+Fe₂B trinca por diferença de expansão — especifique monofásica Fe₂B. Uso: desgaste abrasivo severo (roscas transportadoras, bicos, matrizes de extrusão).</li>
+    <li><strong>Outros de nicho:</strong> vanadização/TD-process (VC, ~3000 HV, ferramentas de estampagem), cromização, aluminização (resistência à oxidação a quente), sherardização (Zn).</li>
+  </ul>
+
+  <h3>5.5 Tabela comparativa — a decisão de engenharia</h3>
+  <div class="tscroll" role="region" aria-label="tabela rolável"><span class="scrollhint">↔ arraste a tabela</span><table>
+    <tr><th>Processo</th><th>T (°C)</th><th>Dureza sup.</th><th>Profundidade típica</th><th>Distorção</th><th>Têmpera depois?</th><th>Use quando…</th></tr>
+    <tr><td>Cementação</td><td class="num">880–950</td><td class="num">58–62 HRC</td><td class="num">0,3–3 mm</td><td>Alta</td><td>Sim</td><td>Cargas de contato altas (engrenagens, rolamentos) — camada profunda de suporte</td></tr>
+    <tr><td>Carbonitretação</td><td class="num">820–900</td><td class="num">58–62 HRC</td><td class="num">0,1–0,75 mm</td><td>Média</td><td>Sim</td><td>Peças pequenas, aço barato, produção em massa</td></tr>
+    <tr><td>Nitretação gás/plasma</td><td class="num">500–580</td><td class="num">600–1200 HV</td><td class="num">0,1–0,8 mm</td><td><strong>Mínima</strong></td><td><strong>Não</strong></td><td>Precisão dimensional, fadiga, matrizes a quente, peças já acabadas</td></tr>
+    <tr><td>FNC / QPQ</td><td class="num">560–580</td><td class="num">~500–900 HV (camada ε)</td><td class="num">10–25 µm + difusão</td><td>Mínima</td><td>Não</td><td>Desgaste adesivo + corrosão, ciclos curtos e baratos</td></tr>
+    <tr><td>Boretação</td><td class="num">850–1000</td><td class="num">1400–2000 HV</td><td class="num">20–300 µm</td><td>Alta</td><td>Opcional (núcleo)</td><td>Abrasão severa que nitretação não segura</td></tr>
+  </table></div>
+  <div class="callout"><span class="tag">Perfil de camada: o conceito de dureza de suporte</span>
+  <p>Camada dura sobre núcleo mole demais é como asfalto fino sobre solo fofo: colapsa por <em>deformação subsuperficial</em> (efeito casca de ovo). Em contato hertziano, a tensão de cisalhamento máxima ocorre <strong>abaixo</strong> da superfície (~0,3–0,5·semilargura de contato) — a camada precisa ser mais profunda que esse pico, e o núcleo precisa de dureza mínima (engrenagens cementadas: núcleo 30–43 HRC). É por isso que CHD de engrenagem escala com o módulo do dente (regra usual: CHD ≈ 0,15–0,2·mₙ).</p></div>
+<div class="pager"><button class="pgbtn" data-go="m4">‹ Têmpera & Revenido</button><button class="pgbtn next" data-go="m6">Superficial ›</button></div></section>
+
+<!-- ============================================================ MÓDULO 6 -->
+<section class="module" id="m6">
+  <div class="eyebrow">Módulo 6 · Endurecer só onde precisa — sem mudar a química</div>
+  <h2>Endurecimento superficial por aquecimento localizado</h2>
+  <p class="lead">Indução, chama, laser e feixe de elétrons austenitizam <strong>apenas a casca</strong> da peça e temperam em seguida — o próprio núcleo frio pode fazer a têmpera (autotêmpera). Exigem aço com carbono suficiente para endurecer (<strong>0,35–0,55 %C</strong>): 1045, 4140, 4340, ferros fundidos perlíticos.</p>
+
+  <h3>6.1 Têmpera por indução</h3>
+  <ul class="tight">
+    <li><strong>Física:</strong> correntes de Foucault + histerese aquecem a superfície em <strong>segundos</strong>. O <em>efeito pelicular</em> concentra a corrente numa profundidade δ ∝ 1/√f — <strong>a frequência é o seu controle de profundidade</strong>.</li>
+    <li><strong>Regras de seleção:</strong> 450 kHz–1 MHz → 0,25–1 mm (fios, pequenos eixos) · 10–50 kHz → 1–3 mm (eixos, pinos) · 1–10 kHz → 3–8 mm (grandes eixos, cilindros de laminação) · 50–60 Hz (rede) → 8–15 mm.</li>
+    <li><strong>Modos:</strong> <em>single-shot</em> (bobina envolve, aquece tudo de uma vez) e <em>scanning</em> (bobina + ducha varrem a peça — eixos longos, guias). Têmpera por ducha de polímero integrada.</li>
+    <li><strong>Detalhes de especialista:</strong> a austenitização é tão rápida (taxas de 100–1000 °C/s) que as temperaturas Ac3 <em>efetivas</em> sobem 50–100 °C acima do equilíbrio — parâmetros de forno não se transferem para indução. A microestrutura de partida importa: estrutura temperada-e-revenida ou normalizada fina responde muito melhor (austenitização homogênea em segundos) do que ferrita+perlita grossa ou esferoidizada. Sempre <strong>revenir após</strong> (170–200 °C, ou revenido por indução). Zona de transição na borda do padrão endurecido fica em <em>tração residual</em> — não a posicione em concentradores (raios, furos, fundos de canal de chaveta!).</li>
+  </ul>
+
+  <h3>6.2 Chama, laser e feixe de elétrons</h3>
+  <div class="tscroll" role="region" aria-label="tabela rolável"><span class="scrollhint">↔ arraste a tabela</span><table>
+    <tr><th>Processo</th><th>Profundidade</th><th>Características</th></tr>
+    <tr><td><strong>Chama</strong> (oxiacetileno + ducha)</td><td class="num">1–6 mm</td><td>Barato, flexível, peças enormes (engrenagens de moenda, rodas), mas controle inferior — depende do operador/dispositivo</td></tr>
+    <tr><td><strong>Laser</strong></td><td class="num">0,3–1,5 mm</td><td>Faixa estreita e precisa, <strong>autotêmpera por condução</strong> (sem ducha), distorção quase nula, integra em célula robotizada; camadas finas — guias, cames, gumes</td></tr>
+    <tr><td><strong>Feixe de elétrons</strong></td><td class="num">0,1–1 mm</td><td>Como laser, mas em vácuo; nichos de altíssima precisão</td></tr>
+  </table></div>
+  <div class="callout blue"><span class="tag">Por que superfície dura melhora fadiga (e não só desgaste)</span>
+  <p>Tanto os termoquímicos quanto indução/laser deixam a casca em <strong>compressão residual</strong> (a expansão da martensita é contida pelo núcleo). Trincas de fadiga nucleiam na superfície sob tração — compressão residual funciona como "pré-carga negativa": o limite de fadiga de um eixo pode subir substancialmente com têmpera por indução bem posicionada (tendência qualitativa — o ganho real depende do aço, da profundidade do padrão e do ensaio). Mesma lógica do shot peening, porém mais profunda.</p></div>
+<div class="pager"><button class="pgbtn" data-go="m5">‹ Termoquímicos</button><button class="pgbtn next" data-go="m7">Aços & Ligas ›</button></div></section>
+
+<!-- ============================================================ MÓDULO 7 -->
+<section class="module" id="m7">
+  <div class="eyebrow">Módulo 7 · A química por trás da ficha técnica</div>
+  <h2>Aços, elementos de liga e casos reais</h2>
+  <p class="lead">Ler uma composição química e prever o comportamento no tratamento térmico é a marca do especialista. Cada elemento tem dois ou três "empregos" — e efeitos colaterais.</p>
+
+  <h3>7.1 O papel de cada elemento</h3>
+  <div class="tscroll" role="region" aria-label="tabela rolável"><span class="scrollhint">↔ arraste a tabela</span><table>
+    <tr><th>Elem.</th><th>Efeitos principais no TT</th><th>Efeitos colaterais / notas</th></tr>
+    <tr><td><strong>C</strong></td><td>Define dureza máxima da martensita; ↑ temperabilidade; ↓ Ms</td><td>&gt;0,6 %: risco de trinca de têmpera e γ retida; soldabilidade despenca (CE)</td></tr>
+    <tr><td><strong>Mn</strong></td><td>↑↑ temperabilidade (barato); ↓ Ms; liga o S como MnS</td><td>&gt;1,8 % favorece γ retida e segregação em bandas</td></tr>
+    <tr><td><strong>Cr</strong></td><td>↑ temperabilidade; forma carbonetos (Cr₇C₃, Cr₂₃C₆) → desgaste; nitreta bem</td><td>≥ ~11 % em solução → inox; susceptível à fragilização ao revenido sem Mo</td></tr>
+    <tr><td><strong>Mo</strong></td><td>↑↑ temperabilidade; <strong>dureza secundária</strong>; resistência à fluência; <strong>anti-fragilização ao revenido</strong></td><td>Caro; 0,15–0,5 % já resolve a fragilização</td></tr>
+    <tr><td><strong>Ni</strong></td><td>↑ temperabilidade; <strong>tenacidade a baixa T</strong> (baixa a TDF); não forma carbonetos</td><td>Estabiliza γ (↑ retida); caro</td></tr>
+    <tr><td><strong>V</strong></td><td>Refina grão (V(C,N) ancora contornos); carboneto VC duríssimo; dureza secundária</td><td>Exige austenitização mais alta p/ dissolver</td></tr>
+    <tr><td><strong>W</strong></td><td>Carbonetos estáveis, dureza a quente (aços rápidos, a quente)</td><td>Denso e caro; parcialmente substituído por Mo (M2 vs T1)</td></tr>
+    <tr><td><strong>Si</strong></td><td>Desoxidante; ↑ resistência ao amolecimento no revenido; molas (9260)</td><td>&gt;2 % dificulta cementação; favorece descarbonetação</td></tr>
+    <tr><td><strong>Al</strong></td><td>Acalma o aço; AlN refina grão; <strong>elemento-chave de nitretação</strong> (Nitralloy)</td><td>Inclusões de alumina (usinabilidade/fadiga de contato)</td></tr>
+    <tr><td><strong>B</strong></td><td>↑↑↑ temperabilidade com 10–30 ppm</td><td>Precisa Ti p/ proteger do N; efeito some acima de ~0,4 %C</td></tr>
+    <tr><td><strong>Nb, Ti</strong></td><td>Microligantes: refino de grão, endurecimento por precipitação (ARBL)</td><td>TiC/TiN abrasivos p/ ferramenta</td></tr>
+  </table></div>
+
+  <h3>7.2 Fichas de tratamento de aços que você encontra todo dia</h3>
+  <div class="tscroll" role="region" aria-label="tabela rolável"><span class="scrollhint">↔ arraste a tabela</span><table>
+    <tr><th>Aço</th><th>Têmpera</th><th>Revenido / resultado</th><th>Notas de especialista</th></tr>
+    <tr><td><strong>1045</strong></td><td class="num">820–850 °C, água/polímero</td><td class="num">550–650 °C → 20–28 HRC (beneficiado)</td><td>Baixa temperabilidade: só endureça por indução ou em seções finas; água = risco de trinca em cantos</td></tr>
+    <tr><td><strong>4140</strong> <em>(similar: 42CrMo4)</em></td><td class="num">840–860 °C, óleo</td><td class="num">540–650 °C → 28–36 HRC</td><td>O beneficiado universal. Evite estacionar em 450–550 °C (fragilização); nitreta muito bem (~600 HV)</td></tr>
+    <tr><td><strong>4340</strong> <em>(similar: 34CrNiMo6)</em></td><td class="num">830–850 °C, óleo</td><td class="num">550–650 °C → 30–40 HRC</td><td>Alta temperabilidade (seções grandes); tenaz; clássico de eixos pesados e componentes de laminação</td></tr>
+    <tr><td><strong>8620</strong> <em>(≈ EN 20NiCrMo2-2 / 1.6523)</em></td><td class="num">Cementa 900–930 °C; tempera 820–840 °C óleo</td><td class="num">160–200 °C → 58–62 HRC sup., núcleo 30–43</td><td>Engrenagem padrão; controle de γ retida na camada; duplo revenido em módulos grandes</td></tr>
+    <tr><td><strong>52100</strong> <em>(similar: 100Cr6)</em></td><td class="num">830–860 °C, óleo (de esferoidizado)</td><td class="num">150–180 °C → 60–64 HRC</td><td>Rolamentos; austenitização intercrítica (carbonetos residuais); subzero p/ estabilidade dimensional</td></tr>
+    <tr><td><strong>H13 / 1.2344</strong></td><td class="num">1010–1030 °C, gás/óleo (vácuo)</td><td class="num">2–3× revenido 550–620 °C → 44–52 HRC</td><td>Dureza secundária; revenir <em>sempre acima</em> do pico p/ estabilidade térmica em serviço; nitretável</td></tr>
+    <tr><td><strong>1.2714 / 56NiCrMoV7</strong></td><td class="num">840–870 °C, óleo/ar</td><td class="num">2× revenido 450–600 °C → 37–44 HRC (~340–420 HB)</td><td>Matrizes de forjamento a quente: prioridade é tenacidade + resistência ao revenimento em serviço; nitretação/soldas de recuperação com pré-aquecimento 350–450 °C e revenido pós-solda</td></tr>
+    <tr><td><strong>M2 / HS6-5-2</strong></td><td class="num">1180–1220 °C, banho/vácuo</td><td class="num">3× 540–560 °C → 63–65 HRC</td><td>Aço rápido: dureza secundária plena exige triplo revenido; γ retida &gt;20 % após têmpera</td></tr>
+  </table></div>
+
+  <h3>7.3 Ferros fundidos: o caso ADI</h3>
+  <p>Ferro nodular austemperado (<strong>ADI</strong>, ASTM A897/A897M — <em>classes e propriedades variam por edição; consulte a vigente</em>): austenitiza 850–950 °C, austêmpera 250–400 °C → <em>ausferrita</em> (ferrita acicular + γ estabilizada em C). Ordem de grandeza do grau básico: ~850 MPa / 10 % along. — resistência de aço forjado com 10 % menos densidade e amortecimento de vibração superior. Usado em engrenagens, suspensões, mancais e componentes de moagem. Atenção: a γ estabilizada transforma sob usinagem pesada → usinar <em>antes</em> de austemperar.</p>
+<div class="pager"><button class="pgbtn" data-go="m6">‹ Superficial</button><button class="pgbtn next" data-go="m8">Prática ›</button></div></section>
+
+<!-- ============================================================ MÓDULO 8 -->
+<section class="module" id="m8">
+  <div class="eyebrow">Módulo 8 · Onde a teoria encontra a oficina (e a auditoria)</div>
+  <h2>Prática industrial: defeitos, controle e ferramentas rápidas</h2>
+  <p class="lead">A maioria dos problemas de tratamento térmico não vem da metalurgia — vem de projeto que ignora a têmpera, carga mal montada, pirometria descalibrada e especificação ambígua. Este módulo é o seu checklist.</p>
+
+  <h3>8.1 Distorção e trincas de têmpera</h3>
+  <ul class="tight">
+    <li><strong>Duas fontes de tensão:</strong> ① <em>térmica</em> (gradiente superfície-núcleo) e ② <em>de transformação</em> (γ→α' expande ~4 % em volume). Quando a superfície já é martensita rígida e o núcleo transforma depois, o núcleo empurra a casca → tração superficial → trinca <strong>tipicamente intergranular seguindo o grão γ prévio</strong> (mas pode ser transgranular ou mista, conforme aço, tensões e condição metalúrgica), partindo de cantos vivos, furos, marcas de estampo, rebarbas e descarbonetação.</li>
+    <li><strong>Regras de projeto anti-trinca:</strong> raios generosos, evitar mudanças bruscas de seção, avaliar tampões em furos roscados (protegem a rosca, mas podem reter vapor e alterar a troca térmica local — decidir caso a caso), posicionar canais de chaveta fora do padrão de indução, seções balanceadas.</li>
+    <li><strong>Regras de processo:</strong> meio mais brando que atenda a dureza (óleo/polímero antes de água), agitação uniforme, orientação de imersão (eixos na vertical!), martêmpera para geometrias críticas, revenir imediatamente.</li>
+    <li><strong>Diagnóstico rápido:</strong> trinca <em>antes</em> do revenido, arestas oxidadas dentro da trinca → trincou na têmpera; trinca com bordas limpas após retífica → possível trinca de retífica (queima) ou de revenido insuficiente.</li>
+  </ul>
+
+  <h3>8.2 Defeitos superficiais de forno</h3>
+  <div class="tscroll" role="region" aria-label="tabela rolável"><span class="scrollhint">↔ arraste a tabela</span><table>
+    <tr><th>Defeito</th><th>Causa</th><th>Prevenção / detecção</th></tr>
+    <tr><td>Descarbonetação</td><td>Atmosfera oxidante (ar, umidade) durante austenitização</td><td>Atmosfera com potencial C ≈ %C do aço, vácuo, ou sobremetal p/ remoção; detectar por microdureza em corte ou lixamento escalonado + dureza</td></tr>
+    <tr><td>Oxidação intergranular (IGO)</td><td>Cementação gasosa: O da atmosfera oxida Si/Mn/Cr nos contornos, 10–25 µm</td><td>LPC (vácuo) elimina; ou prever remoção por retífica; crítica em fadiga de engrenagens</td></tr>
+    <tr><td>Pontos moles</td><td>Filme de vapor persistente, carepa, contato entre peças na carga</td><td>Agitação, salmoura/aditivos, montagem de carga espaçada</td></tr>
+    <tr><td>Excesso de camada branca / camada bifásica</td><td>Potencial de nitretação alto demais</td><td>Controle K_N; plasma p/ suprimir; especificar espessura máx. em desenho (ex.: ≤ 15 µm, monofásica)</td></tr>
+  </table></div>
+
+  <h3>8.3 Pirometria e qualidade (o que a auditoria pede)</h3>
+  <ul class="tight">
+    <li><strong>AMS 2750 / CQI-9:</strong> classes de forno por uniformidade — TUS (Temperature Uniformity Survey), Classe 1 a 6: <strong>±5 a ±50 °F (≈ ±3, ±6, ±8, ±10, ±14 e ±28 °C)</strong>, conforme a edição vigente da norma; SAT (System Accuracy Test), calibração e rastreabilidade de termopares.</li>
+    <li><strong>Especificação em desenho, o mínimo:</strong> tratamento + norma de referência, dureza com <em>método e carga</em> (ex.: 58–62 HRC; 550 HV1), profundidade com critério (CHD 550 HV1 = 0,8–1,2 mm; NHD núcleo+50 HV), local de medição, restrições de camada branca/descarbonetação, e sequência com usinagem (pré/pós).</li>
+    <li><strong>Ensaios de verificação:</strong> dureza superficial e de núcleo, perfil de microdureza (ISO 2639/18203), metalografia (camada, γ retida, IGO), Jominy p/ recebimento de corrida, partículas magnéticas pós-têmpera em peças críticas.</li>
+  </ul>
+
+  <h3>8.4 Conversor de dureza (aprox. ASTM E140, aços) <span class="lvl">CÁLCULO DIDÁTICO</span></h3>
+  <div class="card">
+    <div class="calc">
+      <div><label>Valor</label><input id="cvV" type="number" step="1" min="0" value="450"></div>
+      <div><label>Escala de entrada</label><select id="cvS"><option value="HV" selected>Vickers HV</option><option value="HRC">Rockwell HRC</option><option value="HB">Brinell HB</option></select></div>
+    </div>
+    <div class="result" id="cvOut"></div>
+    <p style="font-size:12px;color:var(--steel);margin-top:8px;margin-bottom:0">Interpolação sobre a tabela E140 para aços não-austeníticos. Conversões são sempre aproximadas — para laudo, meça na escala especificada.</p>
+  </div>
+
+  <h3>8.5 Fluxo de decisão — qual tratamento especificar?</h3>
+  <ol class="tight">
+    <li><strong>Precisa endurecer o volume todo?</strong> → têmpera + revenido (beneficiamento). Verifique temperabilidade × seção (Jominy/CCT) antes de escolher o aço, não depois.</li>
+    <li><strong>Só a superfície, camada profunda (&gt;0,5 mm) e contato hertziano alto?</strong> → cementação (aço baixo C) ou indução (aço médio C, geometria simples e volume de produção).</li>
+    <li><strong>Só a superfície, peça acabada, distorção inaceitável?</strong> → nitretação (aço com Cr/Mo/V/Al, já beneficiado).</li>
+    <li><strong>Desgaste adesivo + corrosão, custo baixo, camada fina serve?</strong> → FNC/QPQ.</li>
+    <li><strong>Abrasão extrema?</strong> → boretação (ou revestimento: PVD, aspersão, solda dura — fora do escopo térmico).</li>
+    <li><strong>Só remover tensões (soldou, usinou pesado)?</strong> → alívio de tensões; respeite o teto do último revenido.</li>
+    <li><strong>Amolecer para usinar/conformar?</strong> → recozimento isotérmico (produtividade) ou esferoidização (alto C).</li>
+  </ol>
+
+  <footer>Atlas de Tratamentos Térmicos &amp; Termoquímicos · <strong>V18</strong> · Material didático: valores são típicos e os simuladores são esquemáticos (selo CÁLCULO DIDÁTICO). Para definição de ciclo, aprovação de processo ou substituição de material, use a norma vigente com edição (DIN EN 10083/10085, ASTM A255/E140/A897M, ISO 642/2639/18203, AMS 2750), o certificado da corrida, curvas CCT/Jominy do fornecedor e validação experimental.</footer>
+<div class="pager"><button class="pgbtn" data-go="m7">‹ Aços & Ligas</button><span></span></div></section>
+</main>
+<button id="toTop" aria-label="Voltar ao topo">↑</button>
+<script>
+/* ============ NAVEGAÇÃO ============ */
+const pills=document.getElementById('pills');
+function goTo(mid,skipHash){
+  if(!document.getElementById(mid))return;
+  if(!skipHash&&location.hash!=='#'+mid){try{history.replaceState(null,'','#'+mid);}catch(e){/* iframe sandbox: sem histórico */}}
+  document.querySelectorAll('#pills button').forEach(x=>{
+    const on=x.dataset.m===mid;
+    x.classList.toggle('active',on);
+    x.setAttribute('aria-selected',on);x.setAttribute('role','tab');x.setAttribute('aria-controls',x.dataset.m);
+  });
+  document.querySelectorAll('.module').forEach(x=>x.classList.toggle('on',x.id===mid));
+  const a=document.querySelector('#pills button[data-m="'+mid+'"]');
+  if(a)a.scrollIntoView({behavior:'smooth',inline:'center',block:'nearest'});
+  window.scrollTo({top:0,behavior:'smooth'});
+  if(mid==='m1'){drawGallery();eqFit();eqRender();bainCv._sz=fitCv(bainCv);latBuild(eqLat);}
+  if(mid==='m2'){fitMicro();applySteel();render();latBuild(simLat);}
+}
+pills.addEventListener('click',e=>{const b=e.target.closest('button');if(b)goTo(b.dataset.m);});
+document.querySelectorAll('.pgbtn').forEach(b=>b.addEventListener('click',()=>goTo(b.dataset.go)));
+const toTop=document.getElementById('toTop');
+addEventListener('scroll',()=>toTop.classList.toggle('show',scrollY>500),{passive:true});
+toTop.addEventListener('click',()=>scrollTo({top:0,behavior:'smooth'}));
+
+/* ============ Fe-C hover ============ */
+const fecInfo=document.getElementById('fecInfo');
+document.querySelectorAll('#fec .rg').forEach(r=>{
+  const show=()=>{fecInfo.innerHTML='<b>Região:</b> '+r.dataset.i;
+    document.querySelectorAll('#fec .rg').forEach(x=>x.setAttribute('opacity','1'));
+    r.setAttribute('opacity','0.72');};
+  r.addEventListener('mouseenter',show); r.addEventListener('click',show);
+});
+
+/* =========================================================
+   MOTOR DE MICROESTRUTURA (v4 — realista)
+   ========================================================= */
+const CLR={
+  gamma:'#C7D6E4', gammaEdge:'#54697E',
+  fer:'#F4F2ED',  bound:'#5E6B7A',
+  pearlLight:'#E6DCCB', pearlDark:'#3A3129',
+  bain:'#9C6430', bainDark:'#452B10',
+  mart:'#7E6488', martEdge:'#3B2A44',
+  martTemp:'#A79DB0', carb:'#241C2B',
+  liq1:'#F6C05B', liq2:'#DE7A2E',
+  bg:'#EEF1F3'
+};
+function rng(seed){let a=seed>>>0;return()=>{a|=0;a=a+0x6D2B79F5|0;let t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296;};}
+function shade(hex,d){ // clareia/escurece
+  const n=parseInt(hex.slice(1),16);
+  const f=v=>Math.max(0,Math.min(255,v+d));
+  return '#'+((f(n>>16)<<16)|(f(n>>8&255)<<8)|f(n&255)).toString(16).padStart(6,'0');
+}
+function clipHalf(poly,a,b){
+  const nx=b.x-a.x,ny=b.y-a.y,mx=(a.x+b.x)/2,my=(a.y+b.y)/2;
+  const d=p=>(p.x-mx)*nx+(p.y-my)*ny, out=[];
+  for(let i=0;i<poly.length;i++){
+    const P=poly[i],Q=poly[(i+1)%poly.length],dp=d(P),dq=d(Q);
+    if(dp<=0)out.push(P);
+    if((dp<0&&dq>0)||(dp>0&&dq<0)){const t=dp/(dp-dq);out.push({x:P.x+t*(Q.x-P.x),y:P.y+t*(Q.y-P.y)});}
+  }
+  return out;
+}
+function centroid(p){let x=0,y=0;p.forEach(q=>{x+=q.x;y+=q.y});return{x:x/p.length,y:y/p.length};}
+function shrinkJit(poly,c,k,R){return poly.map(p=>{const kk=k*(0.9+R()*0.2);return{x:c.x+(p.x-c.x)*kk,y:c.y+(p.y-c.y)*kk};});}
+function pathOf(ctx,poly){ctx.beginPath();poly.forEach((p,i)=>i?ctx.lineTo(p.x,p.y):ctx.moveTo(p.x,p.y));ctx.closePath();}
+function blob(ctx,cx,cy,r,R){ // colônia irregular
+  ctx.beginPath();
+  const n=11,pts=[];
+  for(let i=0;i<n;i++){const a=i/n*2*Math.PI,rr=r*(0.72+R()*0.5);pts.push({x:cx+Math.cos(a)*rr,y:cy+Math.sin(a)*rr});}
+  ctx.moveTo((pts[0].x+pts[n-1].x)/2,(pts[0].y+pts[n-1].y)/2);
+  for(let i=0;i<n;i++){const p=pts[i],q=pts[(i+1)%n];ctx.quadraticCurveTo(p.x,p.y,(p.x+q.x)/2,(p.y+q.y)/2);}
+  ctx.closePath();
+}
+let NOISE=null;
+function noiseTex(){
+  if(NOISE)return NOISE;
+  const c=document.createElement('canvas');c.width=c.height=140;
+  const x=c.getContext('2d'),im=x.createImageData(140,140),R=rng(99);
+  for(let i=0;i<im.data.length;i+=4){const v=170+R()*85;im.data[i]=im.data[i+1]=im.data[i+2]=v;im.data[i+3]=255;}
+  x.putImageData(im,0,0);NOISE=c;return c;
+}
+function finish(ctx,w,h){ // ruído de ataque + vinheta + barra de escala
+  ctx.save();
+  ctx.globalAlpha=0.07;ctx.globalCompositeOperation='multiply';
+  ctx.fillStyle=ctx.createPattern(noiseTex(),'repeat');ctx.fillRect(0,0,w,h);
+  ctx.globalCompositeOperation='source-over';ctx.globalAlpha=1;
+  const g=ctx.createRadialGradient(w/2,h/2,Math.min(w,h)*0.45,w/2,h/2,Math.max(w,h)*0.75);
+  g.addColorStop(0,'rgba(0,0,0,0)');g.addColorStop(1,'rgba(20,25,35,0.13)');
+  ctx.fillStyle=g;ctx.fillRect(0,0,w,h);
+  ctx.fillStyle='rgba(255,255,255,0.88)';ctx.fillRect(w-118,h-26,108,17);
+  ctx.strokeStyle='#18202B';ctx.lineWidth=2;
+  ctx.beginPath();ctx.moveTo(w-76,h-14);ctx.lineTo(w-42,h-14);ctx.stroke();
+  ctx.fillStyle='#18202B';ctx.font='10px IBM Plex Mono, monospace';ctx.fillText('≈20 µm (ilustr.)',w-72,h-11);
+  ctx.restore();
+}
+function buildGrains(w,h,n,seed){
+  const R=rng(seed),pts=[];
+  for(let i=0;i<n;i++){
+    let best=null,bd=-1;
+    for(let k=0;k<12;k++){
+      const c={x:R()*w,y:R()*h};
+      let d=Infinity;pts.forEach(p=>{const dd=(p.x-c.x)**2+(p.y-c.y)**2;if(dd<d)d=dd;});
+      if(pts.length===0)d=1e9;
+      if(d>bd){bd=d;best=c;}
+    }
+    pts.push(best);
+  }
+  const box=[{x:-6,y:-6},{x:w+6,y:-6},{x:w+6,y:h+6},{x:-6,y:h+6}];
+  return pts.map((p,i)=>{
+    let poly=box;
+    pts.forEach((q,j)=>{if(i!==j)poly=clipHalf(poly,p,q);});
+    const c=centroid(poly);
+    let rad=0;poly.forEach(v=>{const d=Math.hypot(v.x-c.x,v.y-c.y);if(d>rad)rad=d;});
+    const gR=rng(seed*7+i*31);
+    const col=[];
+    for(let k=0;k<3;k++){
+      const e=Math.floor(gR()*poly.length),A=poly[e],B=poly[(e+1)%poly.length],t=0.25+gR()*0.5;
+      col.push({x:A.x+(B.x-A.x)*t,y:A.y+(B.y-A.y)*t,ang:gR()*Math.PI,rmax:rad*1.5,seed:seed+i*13+k});
+    }
+    const bain=[],mart=[],bAng=gR()*Math.PI;
+    for(let k=0;k<26;k++)bain.push({x:c.x+(gR()-.5)*rad*1.5,y:c.y+(gR()-.5)*rad*1.5,
+      ang:bAng+(gR()-.5)*0.5+(gR()<0.4?Math.PI/3:0),len:rad*(0.35+gR()*0.5),w:1.7+gR()*1.2});
+    const vars=[gR()*Math.PI,gR()*Math.PI,gR()*Math.PI];
+    for(let k=0;k<34;k++){const v=vars[k%3];
+      mart.push({x:c.x+(gR()-.5)*rad*1.6,y:c.y+(gR()-.5)*rad*1.6,
+        ang:v+(gR()-.5)*0.28,len:rad*(0.6+gR()*1.0),w:2.2+gR()*3.4});}
+    mart.sort((a,b)=>b.w-a.w);
+    return {poly,c,rad,col,bain,mart,tint:Math.floor((gR()-.5)*14),R:gR};
+  });
+}
+function drawLamellae(ctx,col,r,spacing){
+  ctx.save();
+  const R=rng(col.seed);
+  blob(ctx,col.x,col.y,r,R);ctx.clip();
+  ctx.fillStyle=CLR.pearlLight;ctx.fillRect(col.x-r*1.3,col.y-r*1.3,2.6*r,2.6*r);
+  ctx.translate(col.x,col.y);ctx.rotate(col.ang);
+  ctx.strokeStyle=CLR.pearlDark;ctx.lineWidth=Math.max(0.7,spacing*0.34);
+  const rr=r*1.35;
+  for(let y=-rr;y<=rr;y+=spacing){
+    ctx.beginPath();
+    for(let x=-rr;x<=rr;x+=6)ctx.lineTo(x,y+Math.sin(x*0.22+y)*0.7);
+    ctx.stroke();
+  }
+  ctx.restore();
+  ctx.save();const R2=rng(col.seed);
+  blob(ctx,col.x,col.y,r,R2);ctx.strokeStyle='rgba(58,49,41,0.55)';ctx.lineWidth=0.8;ctx.stroke();
+  ctx.restore();
+}
+function lath(ctx,o,fill,edge,carb){
+  ctx.save();ctx.translate(o.x,o.y);ctx.rotate(o.ang);
+  ctx.fillStyle=fill;ctx.strokeStyle=edge;ctx.lineWidth=0.6;
+  ctx.beginPath();
+  ctx.moveTo(-o.len/2,0);ctx.lineTo(0,-o.w/2);ctx.lineTo(o.len/2,0);ctx.lineTo(0,o.w/2);ctx.closePath();
+  ctx.fill();ctx.stroke();
+  ctx.strokeStyle='rgba(255,255,255,0.35)';ctx.lineWidth=0.7;   // midrib
+  ctx.beginPath();ctx.moveTo(-o.len/2+2,0);ctx.lineTo(o.len/2-2,0);ctx.stroke();
+  if(carb){ctx.fillStyle=CLR.carb;
+    for(let i=-o.len/2+3;i<o.len/2-2;i+=4.5){ctx.beginPath();ctx.arc(i,0.6,0.75,0,7);ctx.fill();}}
+  ctx.restore();
+}
+/* Campo de transformação (simulador + galeria) */
+function drawField(cv,grains,st,skipFinish){
+  const FLAT=!!st.flat, MAPC={g:'#7FA6C8',f:'#F2EFE6',p:'#D9B36A',b:'#B4693A',m:'#8E5A9E'};
+  const HL=st.hl,hlShapes=[];
+  const ctx=cv.getContext('2d');
+  const w=cv.clientWidth,h=parseInt(cv.dataset.h);
+  ctx.clearRect(0,0,w,h);
+  ctx.fillStyle=CLR.bg;ctx.fillRect(0,0,w,h);
+  grains.forEach(g=>{
+    ctx.save();pathOf(ctx,g.poly);ctx.clip();
+    if(FLAT){/* cores sólidas */}
+    if(st.mode==='esfero'){
+      ctx.fillStyle=FLAT?MAPC.f:shade(CLR.fer,g.tint);ctx.fillRect(0,0,w,h);
+      const R=rng(7+g.tint);
+      for(let i=0;i<70;i++){
+        const x=g.c.x+(R()-.5)*g.rad*1.8,y=g.c.y+(R()-.5)*g.rad*1.8;
+        ctx.fillStyle=CLR.pearlDark;ctx.beginPath();ctx.arc(x,y,1.1+R()*2.1,0,7);ctx.fill();
+      }
+      ctx.restore();
+      ctx.strokeStyle=CLR.bound;ctx.lineWidth=1;pathOf(ctx,g.poly);ctx.stroke();
+      return;
+    }
+    ctx.fillStyle=FLAT?MAPC.g:shade(CLR.gamma,g.tint);ctx.fillRect(0,0,w,h);
+    let inner=g.poly;
+    if(st.fF>0.01){
+      ctx.fillStyle=shade(CLR.fer,g.tint);ctx.fillRect(0,0,w,h);
+      const k=Math.sqrt(Math.min(1,Math.max(0.05,1-st.fF)));   // área do miolo = 1−fração de ferrita
+      inner=shrinkJit(g.poly,g.c,Math.min(1,k),rng(g.tint+50));
+      ctx.save();pathOf(ctx,inner);ctx.clip();
+      ctx.fillStyle=FLAT?MAPC.g:shade(CLR.gamma,g.tint);ctx.fillRect(0,0,w,h);
+      ctx.restore();
+      if(HL==='Ferrita')hlShapes.push({t:'poly',p:g.poly},{t:'poly',p:inner});
+      if(HL==='Austenita')hlShapes.push({t:'poly',p:inner});
+      ctx.strokeStyle='rgba(94,107,122,0.35)';ctx.lineWidth=0.7;pathOf(ctx,inner);ctx.stroke();
+    }
+    if(st.fP>0.01){
+      const frac=st.fP/Math.max(st.fPmax,0.001);
+      ctx.save();pathOf(ctx,inner);ctx.clip();
+      g.col.forEach(c=>{
+        const rr=c.rmax*Math.sqrt(Math.min(1,frac));
+        if(FLAT){const R=rng(c.seed);blob(ctx,c.x,c.y,rr,R);ctx.fillStyle=MAPC.p;ctx.fill();}
+        else drawLamellae(ctx,c,rr,st.spacing||4);
+        if(HL==='Perlita')hlShapes.push({t:'blob',x:c.x,y:c.y,r:rr,seed:c.seed});
+      });
+      ctx.restore();
+    }
+    if(st.fB>0.01){
+      const n=Math.round(g.bain.length*Math.min(1,st.fB));
+      ctx.save();pathOf(ctx,g.poly);ctx.clip();
+      for(let i=0;i<n;i++){lath(ctx,g.bain[i],FLAT?MAPC.b:CLR.bain,CLR.bainDark,!FLAT);if(HL==='Bainita'&&i<6)hlShapes.push({t:'lath',o:g.bain[i]});}
+      ctx.restore();
+    }
+    if(st.fM>0.01){
+      const n=Math.round(g.mart.length*Math.min(1,st.fM));
+      ctx.save();pathOf(ctx,g.poly);ctx.clip();
+      for(let i=0;i<n;i++){
+        const o=g.mart[i];
+        if(st.mode==='revenida')lath(ctx,o,CLR.martTemp,CLR.martEdge,true);
+        else lath(ctx,o,FLAT?MAPC.m:CLR.mart,CLR.martEdge,false);
+        if(HL==='Martensita'&&i<8)hlShapes.push({t:'lath',o});
+      }
+      ctx.restore();
+    }
+    ctx.restore();
+    ctx.strokeStyle=CLR.bound;ctx.lineWidth=1.1;pathOf(ctx,g.poly);ctx.stroke();
+  });
+  if(hlShapes.length){
+    ctx.save();ctx.strokeStyle='#E8955B';ctx.lineWidth=2.2;
+    hlShapes.forEach(s=>{
+      if(s.t==='poly'){pathOf(ctx,s.p);ctx.stroke();}
+      else if(s.t==='blob'){blob(ctx,s.x,s.y,s.r,rng(s.seed));ctx.stroke();}
+      else{ctx.translate(s.o.x,s.o.y);ctx.rotate(s.o.ang);
+        ctx.strokeRect(-s.o.len/2,-s.o.w/2-1,s.o.len,s.o.w+2);ctx.setTransform(1,0,0,1,0,0);
+        const dpr=Math.min(2,devicePixelRatio||1);ctx.scale(dpr,dpr);}
+    });
+    ctx.restore();
+  }
+  if(!skipFinish&&!FLAT)finish(ctx,w,h);
+}
+
+/* =========================================================
+   AÇOS — curvas TTT parametrizadas
+   x(t)=70+(log10 t +1)*110 · y(T)=400−T·0,4111
+   Região: {Tt,Tn,Tb, tns(início no nariz,s), tnf(fim), wT,wB}
+   ========================================================= */
+const xt=t=>70+(Math.log10(t)+1)*110;
+const yOfT=T=>400-T*0.4111, tOfY=y=>(400-y)/0.4111;
+const STEELS={
+  s1020:{nome:'AISI 1020',C:0.20,comp:'0,20 C · 0,45 Mn',Ms:441,
+    fer:{Tt:800,Tn:640,Tb:555,tns:0.1,tnf:0.38,wT:52,wB:40,fmax:0.72},
+    pearl:{Tt:725,Tn:575,Tb:400,tns:0.12,tnf:0.4,wT:44,wB:36},
+    bain:null,
+    nota:'Temperabilidade baixíssima: numa barra Ø25 mm, <b>nem a água salva</b> — ferrita e perlita se formam antes de Ms. 1020 endurece por <b>cementação</b> (muda-se o C da superfície), não por têmpera direta.'},
+  s1045:{nome:'AISI 1045',C:0.45,comp:'0,45 C · 0,75 Mn',Ms:326,
+    fer:{Tt:770,Tn:630,Tb:560,tns:0.32,tnf:1.5,wT:78,wB:58,fmax:0.40},
+    pearl:{Tt:725,Tn:560,Tb:470,tns:0.9,tnf:7,wT:115,wB:85},
+    bain:{Tt:470,Tn:415,Tb:335,tns:1.6,tnf:25,wT:70,wB:60},
+    nota:'Tempera em <b>água</b> (seções finas) — em óleo, a curva é cruzada e o resultado é misto. Clássico de têmpera por indução.'},
+  s4140:{nome:'AISI 4140 · 42CrMo4',C:0.40,comp:'0,40 C · 0,85 Mn · 0,95 Cr · 0,20 Mo',Ms:343,
+    fer:{Tt:760,Tn:665,Tb:615,tns:18,tnf:150,wT:80,wB:55,fmax:0.12},
+    pearl:{Tt:725,Tn:655,Tb:585,tns:30,tnf:500,wT:95,wB:70},
+    bain:{Tt:565,Tn:460,Tb:350,tns:2.8,tnf:70,wT:85,wB:75},
+    nota:'Cr+Mo separam as curvas: a famosa <b>baía</b> entre perlita e bainita. Nariz efetivo é o da <b>bainita</b> (~3 s): óleo passa com folga → martensita com pouca distorção.'},
+  s4340:{nome:'AISI 4340 · 34CrNiMo6',C:0.40,comp:'0,40 C · 1,8 Ni · 0,80 Cr · 0,25 Mo',Ms:286,
+    fer:null,
+    pearl:{Tt:725,Tn:660,Tb:600,tns:400,tnf:6000,wT:90,wB:65},
+    bain:{Tt:525,Tn:440,Tb:295,tns:30,tnf:1200,wT:95,wB:85},
+    nota:'Ni+Cr+Mo empurram a perlita para <b>minutos</b> e a bainita para dezenas de segundos: endurece <b>seções grandes em óleo</b>. Preço: Ms baixa (286 °C) → mais austenita retida; e cuidado com a fragilização ao revenido (450–550 °C).'},
+  s8620:{nome:'AISI 8620',C:0.20,comp:'0,20 C · 0,80 Mn · 0,50 Cr · 0,55 Ni · 0,20 Mo',Ms:405,hv:445,
+    fer:{Tt:790,Tn:640,Tb:560,tns:1.2,tnf:8,wT:85,wB:60,fmax:0.55},
+    pearl:{Tt:725,Tn:590,Tb:480,tns:2.5,tnf:20,wT:95,wB:70},
+    bain:{Tt:490,Tn:432,Tb:415,tns:3,tnf:40,wT:70,wB:55},
+    nota:'Aço de <b>cementação</b>: aqui você vê o <b>núcleo</b> (~40–43 HRC temperado). A camada cementada (~0,8 %C) tem curva própria, com Ms ≈ 180 °C — é por isso que a γ retida mora na superfície das engrenagens.'},
+  sh13:{nome:'AISI H13 · 1.2344',C:0.40,comp:'0,40 C · 5,0 Cr · 1,3 Mo · 1,0 V · 1,0 Si',Ms:335,hv:565,
+    fer:null,
+    pearl:{Tt:725,Tn:670,Tb:615,tns:3000,tnf:40000,wT:75,wB:55},
+    bain:{Tt:560,Tn:430,Tb:325,tns:200,tnf:4000,wT:95,wB:80},
+    nota:'5 %Cr + Mo + V: <b>temperável ao ar</b> — experimente <b>Resfriamento ao ar</b> e veja martensita mesmo assim — isso é <b>têmpera ao ar/gás</b> (não normalização), e é assim que se tempera matriz grande com distorção mínima. Austenitização real: 1010–1030 °C; a dureza de trabalho vem do <b>duplo revenido com dureza secundária</b> (550–620 °C).'}
+};
+function xsOf(r,T,fin){ // x da curva início(fin=false)/fim(true) na temperatura T
+  const xn=xt(fin?r.tnf:r.tns);
+  if(T>r.Tt||T<r.Tb)return Infinity;
+  const u=T>=r.Tn?(T-r.Tn)/Math.max(1,(r.Tt-r.Tn)):(r.Tn-T)/Math.max(1,(r.Tn-r.Tb));
+  return xn+u*u*(T>=r.Tn?r.wT:r.wB)*(fin?1.12:1);
+}
+function curvePath(r,fin){
+  let d='';
+  for(let T=r.Tt;T>=r.Tb;T-=6){
+    const x=xsOf(r,T,fin);if(x>735)continue;
+    d+=(d?' L ':'M ')+x.toFixed(1)+','+yOfT(T).toFixed(1);
+  }
+  return d;
+}
+function drawSteelCurves(){
+  const S=STEELS[SIM.steel];
+  document.getElementById('fsC').setAttribute('d',S.fer ?curvePath(S.fer ,false):'');
+  document.getElementById('ffC').setAttribute('d',S.fer ?curvePath(S.fer ,true ):'');
+  document.getElementById('psC').setAttribute('d',curvePath(S.pearl,false));
+  document.getElementById('pfC').setAttribute('d',curvePath(S.pearl,true ));
+  document.getElementById('bsC').setAttribute('d',S.bain?curvePath(S.bain,false):'');
+  document.getElementById('bfC').setAttribute('d',S.bain?curvePath(S.bain,true ):'');
+  const put=(id,r,dx,dy)=>{const el=document.getElementById(id);
+    if(!r){el.setAttribute('opacity',0);return;}
+    el.setAttribute('opacity',1);
+    el.setAttribute('x',Math.min(690,xt(r.tnf)+dx));el.setAttribute('y',yOfT(r.Tn)+dy);};
+  put('lblF',S.fer,14,-6);put('lblP',S.pearl,16,4);put('lblB',S.bain,16,4);
+  const ym=yOfT(S.Ms),yf=yOfT(Math.max(20,S.Ms-215));
+  [['msLine',ym],['mfLine',yf]].forEach(([id,y])=>{const l=document.getElementById(id);l.setAttribute('y1',y);l.setAttribute('y2',y);});
+  const msl=document.getElementById('msLbl'),mfl=document.getElementById('mfLbl');
+  msl.setAttribute('y',ym-5);msl.textContent='Ms '+S.Ms+'°';
+  mfl.setAttribute('y',Math.min(396,yf-5));mfl.textContent='Mf≈'+Math.max(20,S.Ms-215).toFixed(0)+'°';
+  document.getElementById('steelInfo').textContent=S.comp+' · Ms '+S.Ms+' °C';
+}
+
+/* =========================================================
+   SIMULADOR — a trajetória lê as curvas do aço
+   ========================================================= */
+/* curvas de resfriamento geradas fisicamente: T(t)=Tamb+(T0−Tamb)·e^(−t/τ)
+   τ por meio × fator de posição (Superfície 0,55 · Meio raio 1 · Núcleo 2,2) */
+const PROCDEF={
+  agua:{tau:1.2}, oleo:{tau:4}, normal:{tau:90}, recoz:{tau:2500},
+  martemp:{tau:4,holdMs:25,holdDt:150,after:60},   // patamar dinâmico: Ms+25 °C
+  austemp:{tau:3.5,holdT:330,holdDt:1e9}
+};
+function coolT(proc,t,pos,Ms){
+  const P=PROCDEF[proc],T0=850,Ta=20,tau=P.tau*pos;
+  const hold=P.holdT!==undefined?P.holdT:(P.holdMs!==undefined?Ms+P.holdMs:null);
+  if(hold===null)return Ta+(T0-Ta)*Math.exp(-t/tau);
+  const tHold=tau*Math.log((T0-Ta)/(hold-Ta));           // instante em que atinge o patamar
+  if(t<=tHold)return Ta+(T0-Ta)*Math.exp(-t/tau);
+  if(t<=tHold+P.holdDt)return hold;
+  const tau2=(P.after||60)*pos;
+  return Ta+(hold-Ta)*Math.exp(-(t-tHold-P.holdDt)/tau2);
+}
+function buildPath(proc,pos,Ms){
+  let d='';
+  for(let lg=-1.15;lg<=4.78;lg+=0.045){
+    const t=Math.pow(10,lg),T=coolT(proc,t,pos,Ms);
+    const x=Math.min(730,xt(Math.max(t,0.07))),y=Math.max(31,Math.min(399,yOfT(T)));
+    d+=(d?' L ':'M ')+x.toFixed(1)+','+y.toFixed(1);
+    if(T<25)break;
+  }
+  return d;
+}
+const tOfX=x=>Math.pow(10,(x-70)/110-1);
+function fmtT2(t){return t<1?t.toFixed(1)+' s':(t<90?t.toFixed(0)+' s':(t<5400?(t/60).toFixed(0)+' min':(t/3600).toFixed(1)+' h'));}
+const PTXT={
+  agua:'Resfriamento severo (H≈1–2).',oleo:'H≈0,3–0,5 — o meio padrão dos aços ligados.',
+  martemp:'Patamar em sal a Ms+25 °C (dinâmico por aço) equaliza a seção antes de cruzar a transformação.',
+  austemp:'Patamar isotérmico na zona bainítica.',
+  normal:'Ar calmo — em aço C-Mn equivale à normalização (perlita fina, grão refinado); em aço de alta temperabilidade (ex.: H13) é <b>têmpera ao ar</b>, não normalização.',recoz:'Forno — perlita grossa, dureza mínima.'};
+const HVM=[[0.1,390],[0.2,510],[0.3,590],[0.4,655],[0.5,700],[0.6,740],[0.8,780]];
+function hvMart(C){for(let i=0;i<HVM.length-1;i++){const a=HVM[i],b=HVM[i+1];
+  if(C<=b[0]){const t=(C-a[0])/(b[0]-a[0]);return a[1]+t*(b[1]-a[1]);}}return 780;}
+const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
+
+const SIM={steel:'s4140',p:'agua',g:'fino',s:0,play:false,spd:1,pos:1,dia:1,view:'metal',hl:null};
+const svgPath=document.getElementById('coolPath'),donePath=document.getElementById('coolDone');
+const cv=document.getElementById('micro');
+let GRAINS=[],PLEN=1;
+
+function fitMicro(){
+  const w=cv.clientWidth||320,h=parseInt(cv.dataset.h),dpr=Math.min(2,devicePixelRatio||1);
+  cv.width=w*dpr;cv.height=h*dpr;cv.style.height=h+'px';
+  cv.getContext('2d').setTransform(dpr,0,0,dpr,0,0);
+  GRAINS=buildGrains(w,h,SIM.g==='fino'?24:8,SIM.g==='fino'?42:11);
+}
+/* percorre a trajetória e mede o avanço dentro de cada região */
+function state(){
+  const S=STEELS[SIM.steel];
+  const N=240,end=SIM.s*PLEN;
+  let progF=0,progP=0,progB=0,Tpearl=650;
+  for(let i=0;i<=N;i++){
+    const pt=svgPath.getPointAtLength(end*i/N);
+    const T=tOfY(pt.y),x=pt.x;
+    const adv=(r)=>{
+      if(!r||T>r.Tt||T<r.Tb)return 0;
+      const xs=xsOf(r,T,false),xf=xsOf(r,T,true);
+      return clamp((x-xs)/Math.max(8,(xf-xs)),0,1);
+    };
+    const pF=adv(S.fer),pP=adv(S.pearl),pB=adv(S.bain);
+    if(pF>progF)progF=pF;
+    if(pP>progP){progP=pP;Tpearl=T;}
+    if(pB>progB)progB=pB;
+  }
+  const pt=svgPath.getPointAtLength(end),T=Math.max(20,tOfY(pt.y));
+  const ferEq=S.C<0.77?(0.77-S.C)/0.748:0;
+  const FF=S.fer?(S.fer.fmax*ferEq)*progF:0;
+  const FP=(1-FF)*progP;
+  const FB=(1-FF-FP)*progB;
+  const gamma0=Math.max(0,1-FF-FP-FB);
+  const Ms=S.Ms,Mf=Math.max(20,Ms-215);
+  const FM=T<Ms?gamma0*(1-Math.exp(-0.011*(Ms-T))):0;
+  const FG=Math.max(0,gamma0-FM);
+  const spacing=Tpearl>620?8:(Tpearl>555?4.2:2.8);
+  const HV=FF*110+FP*(spacing>6?200:290)+FB*470+FM*(S.hv||hvMart(S.C))+FG*260;
+  return {pt,T,fF:FF,fP:FP,fB:FB,fM:FM,fG:FG,fFmax:Math.max(FF,0.02),fPmax:Math.max(FP,0.02),
+          spacing,HV,Ms,Mf,mode:'sim',S};
+}
+function fmt(x){return (x*100).toFixed(0);}
+function render(){
+  const st=state(),S=st.S;
+  donePath.setAttribute('d',svgPath.getAttribute('d'));
+  donePath.style.strokeDasharray=PLEN;donePath.style.strokeDashoffset=PLEN*(1-SIM.s);
+  const tNow=tOfX(st.pt.x);
+  document.getElementById('microT').textContent=st.T.toFixed(0)+' °C · t ≈ '+fmtT2(tNow);
+  document.getElementById('microName').textContent=S.nome;
+  if(SIM.view!=='atom'){st.hl=SIM.hl;drawField(cv,GRAINS,st);}
+  document.getElementById('microFoot').textContent=
+    SIM.view==='atom'?'A lição central: difusão ativa (C salta) vs congelada (C preso na rede)':
+    'Corte transversal esquemático · ataque nital 2 % · escala ilustrativa';
+  const segs=[['Ferrita',st.fF,CLR.fer,'#2B3B4D'],['Perlita',st.fP,CLR.pearlLight,'#2B3B4D'],
+              ['Bainita',st.fB,CLR.bain,'#fff'],['Martensita',st.fM,CLR.mart,'#fff'],
+              ['Austenita',st.fG,CLR.gamma,'#2B3B4D']];
+  document.getElementById('fracBar').innerHTML=segs.filter(s=>s[1]>0.005)
+    .map(s=>`<div style="flex:${s[1]};background:${s[2]};color:${s[3]}">${s[1]>0.13?fmt(s[1])+'%':''}</div>`).join('');
+  document.getElementById('legend').innerHTML=segs.filter(s=>s[1]>0.005)
+    .map(s=>`<span data-k="${s[0]}" class="${SIM.hl===s[0]?'on':''}"><i style="background:${s[2]}"></i>${s[0]} ≈${fmt(s[1])}%</span>`).join('');
+  let msg;
+  if(SIM.s<0.05)msg=`<b>Austenitização.</b> Grão γ ${SIM.g==='fino'?'fino':'<b>grosso</b>'} — carbono todo dissolvido; tudo herda estes contornos.`;
+  else if(st.fM>0.02)msg=`<b>Abaixo de Ms (${st.Ms} °C).</b> Placas cisalham o grão em variantes — sem difusão. Fração por Koistinen–Marburger.`;
+  else if(st.fB>0.02)msg=`<b>Bainita crescendo</b> — ripas com carbonetos internos.`;
+  else if(st.fP>0.02)msg=`<b>Perlita nucleando nos contornos</b>, colônias crescendo; espaçamento ${st.spacing>6?'<b>largo</b> (T alta)':'<b>fino</b> (T baixa)'}.`;
+  else if(st.fF>0.02)msg=`<b>Ferrita pró-eutetoide</b> nos contornos, enriquecendo a γ restante em carbono.`;
+  else if(st.T>560)msg=`<b>Austenita metaestável</b> — corrida contra o nariz em andamento.`;
+  else msg=`<b>Austenita super-resfriada</b> — passou do nariz sem transformar: agora só resta martensita, abaixo de Ms.`;
+  let alerta='';
+  if(SIM.s>0.9){
+    if((SIM.p==='agua'||SIM.p==='oleo')&&st.fM<0.2&&(st.fF+st.fP)>0.5)
+      alerta+=`<br>⚠ <b>A peça NÃO temperou:</b> ${fmt(st.fF+st.fP)}% virou ferrita/perlita antes de Ms — comportamento esperado de aço de baixa temperabilidade em seção média. Saídas: aço ligado, cementação, ou seção fina + salmoura.`;
+    else if((SIM.p==='agua'||SIM.p==='oleo')&&st.fM<0.6&&(st.fF+st.fP)>0.25)
+      alerta+=`<br>⚠ <b>Têmpera parcial:</b> ${fmt(st.fF+st.fP)}% de ferrita/perlita antes de Ms → dureza heterogênea e pontos moles. Aço mais ligado ou meio mais severo.`;
+    if(SIM.p==='austemp'&&st.Ms>335)
+      alerta+=`<br>⚠ Ms = ${st.Ms} °C está <b>acima do patamar (330 °C)</b>: martensita se formou na descida — isso não é austêmpera para este aço.`;
+    if(SIM.p==='austemp'&&st.fB<0.5&&st.fG>0.3)
+      alerta+=`<br>⚠ Patamar curto para o 4340: a bainita leva <b>minutos</b> — o corte do ciclo deixou ${fmt(st.fG)}% de γ sem transformar.`;
+    if(st.fG>0.05&&st.fM>0.3)
+      alerta+=`<br>⚠ <b>${fmt(st.fG)}% de austenita retida</b> (Mf = ${st.Mf.toFixed(0)} °C): considere subzero ou revenidos múltiplos.`;
+  }
+  const hrc=st.HV>=250?interp(st.HV,0,1):null;
+  document.getElementById('simOut').innerHTML=
+    `${msg}<br><span style="color:#9FB3C8">${S.nota} ${PTXT[SIM.p]}</span><br>`+
+    (function(){
+      const lo=Math.round(st.HV*0.85/10)*10,hi=Math.round(st.HV*1.15/10)*10;
+      const hl=lo>=250?interp(lo,0,1):null,hh=hi>=250?interp(Math.min(hi,800),0,1):null;
+      const dom=[['martensita',st.fM],['bainita',st.fB],['perlita',st.fP],['ferrita',st.fF],['austenita',st.fG]].sort((a,b)=>b[1]-a[1])[0];
+      const qual=dom[1]>0.6?dom[0]+' predominante':'estrutura mista';
+      return `<b>${qual}</b> · dureza na ordem de <b>${lo}–${hi} HV</b>${hl&&hh?' (≈ '+hl.toFixed(0)+'–'+hh.toFixed(0)+' HRC)':''} · Ms <b>${st.Ms} °C</b> · Mf≈${st.Mf.toFixed(0)} °C`;
+    })()+alerta;
+}
+function applySteel(){drawSteelCurves();}
+function setProc(p){
+  SIM.p=p;
+  svgPath.setAttribute('d',buildPath(p,effMul(),STEELS[SIM.steel].Ms));
+  PLEN=svgPath.getTotalLength();
+  SIM.s=0;document.getElementById('scrub').value=0;render();
+}
+document.getElementById('steelBtns').addEventListener('click',e=>{
+  const b=e.target.closest('.chip');if(!b)return;
+  document.querySelectorAll('#steelBtns .chip').forEach(x=>x.classList.remove('sel'));
+  b.classList.add('sel');stop();SIM.steel=b.dataset.s;applySteel();setProc(SIM.p);
+});
+document.getElementById('tttBtns').addEventListener('click',e=>{
+  const b=e.target.closest('.chip');if(!b)return;
+  document.querySelectorAll('#tttBtns .chip').forEach(x=>x.classList.remove('sel'));
+  b.classList.add('sel');stop();setProc(b.dataset.p);
+});
+document.getElementById('simG').addEventListener('change',e=>{SIM.g=e.target.value;fitMicro();render();});
+const scrub=document.getElementById('scrub');
+scrub.addEventListener('input',e=>{stop();SIM.s=e.target.value/1000;render();});
+let raf=null;
+const playBtn=document.getElementById('playBtn');
+function stop(){cancelAnimationFrame(raf);raf=null;SIM.play=false;playBtn.textContent='▶ Reproduzir';playBtn.classList.add('sel');}
+function play(){
+  if(SIM.s>=1)SIM.s=0;
+  SIM.play=true;playBtn.textContent='❚❚ Pausar';playBtn.classList.remove('sel');
+  let last=performance.now();
+  const step=now=>{
+    const dt=(now-last)/1000;last=now;
+    SIM.s=Math.min(1,SIM.s+dt/5.33*SIM.spd);
+    scrub.value=SIM.s*1000;render();
+    if(SIM.s<1)raf=requestAnimationFrame(step);else stop();
+  };
+  raf=requestAnimationFrame(step);
+}
+playBtn.addEventListener('click',()=>SIM.play?stop():play());
+function sAtX(targetX){ // fração da nova curva que corresponde ao mesmo instante (mesmo x)
+  let lo=0,hi=PLEN;
+  for(let i=0;i<26;i++){const mid=(lo+hi)/2;
+    (svgPath.getPointAtLength(mid).x<targetX)?lo=mid:hi=mid;}
+  return Math.min(1,lo/PLEN);
+}
+function effMul(){ // o diâmetro pesa conforme a posição: superfície ~imune, núcleo integral
+  const k=SIM.pos<0.8?0.15:(SIM.pos<2?0.75:1.0);
+  return SIM.pos*Math.pow(SIM.dia,k);
+}
+function rebuildKeepT(){ // troca de curva mantendo o instante do ciclo
+  const xNow=svgPath.getPointAtLength(SIM.s*PLEN).x;
+  svgPath.setAttribute('d',buildPath(SIM.p,effMul(),STEELS[SIM.steel].Ms));
+  PLEN=svgPath.getTotalLength();
+  SIM.s=SIM.s>=0.999?1:sAtX(xNow);
+  document.getElementById('scrub').value=SIM.s*1000;
+  render();
+}
+document.getElementById('posRow').addEventListener('click',e=>{
+  const b=e.target.closest('.pos');if(!b)return;
+  document.querySelectorAll('#posRow .pos').forEach(x=>x.classList.remove('sel'));
+  b.classList.add('sel');
+  SIM.pos=parseFloat(b.dataset.pos);
+  rebuildKeepT();
+});
+document.getElementById('diaRow').addEventListener('click',e=>{
+  const b=e.target.closest('.dia');if(!b)return;
+  document.querySelectorAll('#diaRow .dia').forEach(x=>x.classList.remove('sel'));
+  b.classList.add('sel');
+  SIM.dia=parseFloat(b.dataset.dia);
+  rebuildKeepT();
+});
+const microCv=document.getElementById('micro'),simAtomCv=document.getElementById('simAtom');
+document.getElementById('viewTabs').addEventListener('click',e=>{
+  const b=e.target.closest('.vt');if(!b)return;
+  document.querySelectorAll('#viewTabs .vt').forEach(x=>x.classList.remove('sel'));
+  b.classList.add('sel');SIM.view=b.dataset.v;
+  const atom=SIM.view==='atom';
+  microCv.style.display=atom?'none':'block';
+  simAtomCv.style.display=atom?'block':'none';
+  if(atom)latBuild(simLat);
+  render();
+});
+document.getElementById('legend').addEventListener('click',e=>{
+  const s=e.target.closest('span[data-k]');if(!s)return;
+  SIM.hl=SIM.hl===s.dataset.k?null:s.dataset.k;render();
+});
+
+/* =========================================================
+   EXPLORADOR DE EQUILÍBRIO Fe-C
+   ========================================================= */
+const EQ={C:0.45,T:850};
+const A3=C=>912-240.3*C, ACM=C=>727+314.2*(C-0.77);
+const LIQ=C=>1538-90.7*C, SOL=C=>1538-184.8*C;
+const eqCv=document.getElementById('eqCv2');
+let EQG=[];
+function eqFit(){
+  const w=eqCv.clientWidth||320,h=parseInt(eqCv.dataset.h),dpr=Math.min(2,devicePixelRatio||1);
+  eqCv.width=w*dpr;eqCv.height=h*dpr;eqCv.style.height=h+'px';
+  eqCv.getContext('2d').setTransform(dpr,0,0,dpr,0,0);
+  EQG=buildGrains(w,h,16,77);
+}
+function eqState(){
+  const C=EQ.C,T=EQ.T;
+  const tl=LIQ(C),ts=SOL(C),ta3=A3(C),tacm=ACM(C);
+  if(T>=tl)return{region:'Líquido',fr:[['Líquido',1]],draw:{mode:'liq',fL:1},
+    txt:`Acima da <b>liquidus</b> (${tl.toFixed(0)} °C): tudo fundido, carbono totalmente disperso.`};
+  if(T>ts&&T>1148){
+    const Cl=(1538-T)/90.7,Cg=(1538-T)/184.8;
+    const fG=clamp((Cl-C)/Math.max(0.01,Cl-Cg),0,1);
+    return{region:'Líquido + γ',fr:[['Austenita',fG],['Líquido',1-fG]],draw:{mode:'liq',fL:1-fG,fG},
+      txt:`Entre liquidus (${tl.toFixed(0)} °C) e solidus (${ts.toFixed(0)} °C): dendritas de γ (C ≈ ${Cg.toFixed(2)} %) crescem no líquido (C ≈ ${Cl.toFixed(2)} %). Alavanca: γ = (${Cl.toFixed(2)}−${C.toFixed(2)})/(${Cl.toFixed(2)}−${Cg.toFixed(2)}) = <b>${fmt(fG)}%</b>. É daqui que nasce a <b>segregação dendrítica</b>.`};
+  }
+  if(C<=0.77){
+    if(T>ta3&&T>727)return{region:'Austenita γ',fr:[['Austenita',1]],draw:{mode:'sim',fF:0,fP:0,fB:0,fM:0,fG:1,fFmax:1,fPmax:1},
+      txt:`Campo γ (acima de A3 = ${ta3.toFixed(0)} °C): rede CFC, ${C.toFixed(2)} %C dissolvido. É o ponto de partida de todo tratamento — a faixa de austenitização recomendada é A3 + 30–50 °C = <b>${(ta3+30).toFixed(0)}–${(ta3+50).toFixed(0)} °C</b>.`};
+    if(T>727){
+      const Cg=(912-T)/240.3,Ca=0.02*(T-400)/327;
+      const fA=clamp((Cg-C)/Math.max(0.02,Cg-Ca),0,1);
+      return{region:'Ferrita α + γ (intercrítica)',fr:[['Ferrita',fA],['Austenita',1-fA]],
+        draw:{mode:'sim',fF:fA,fP:0,fB:0,fM:0,fG:1-fA,fFmax:Math.max(fA,0.02),fPmax:1},
+        txt:`Zona intercrítica (entre A1 e A3 = ${ta3.toFixed(0)} °C): ferrita nucleou nos contornos e a γ restante enriqueceu até C ≈ ${Cg.toFixed(2)} %. Alavanca → ferrita = <b>${fmt(fA)}%</b>. Temperar daqui = pontos moles de ferrita (erro clássico) — ou aço bifásico, se for de propósito.`};
+    }
+    const fPer=clamp(C/0.77,0,1),fFer=1-fPer;
+    return{region:'Ferrita + Perlita',fr:[['Ferrita',fFer],['Perlita',fPer]],
+      draw:{mode:'sim',fF:fFer,fP:fPer,fB:0,fM:0,fG:0,fFmax:Math.max(fFer,0.02),fPmax:Math.max(fPer,0.02),spacing:8},
+      txt:`Abaixo de A1 (727 °C): a γ com 0,77 %C virou <b>perlita</b>; a ferrita pró-eutetoide ficou nos contornos. Alavanca → perlita ≈ C/0,77 = <b>${fmt(fPer)}%</b>. Dureza de equilíbrio ≈ <b>${(fFer*90+fPer*220).toFixed(0)} HB</b>.`};
+  }else{
+    if(T>tacm&&T>727)return{region:'Austenita γ',fr:[['Austenita',1]],draw:{mode:'sim',fF:0,fP:0,fB:0,fM:0,fG:1,fFmax:1,fPmax:1},
+      txt:`Campo γ (acima de Acm = ${tacm.toFixed(0)} °C): todos os carbonetos dissolvidos. <b>Cuidado:</b> austenitizar aqui um hipereutetoide incha o grão e despenca a Ms — na prática tempera-se na zona intercrítica (A1 + 50–70 °C), com carbonetos residuais.`};
+    if(T>727){
+      const Cg=0.77+(T-727)/314.2;
+      const fC=clamp((C-Cg)/(6.67-Cg),0,1);
+      return{region:'γ + Fe₃C',fr:[['Austenita',1-fC],['Cementita',fC]],
+        draw:{mode:'net',fNet:fC,gamma:true},
+        txt:`Entre A1 e Acm (${tacm.toFixed(0)} °C): cementita precipita <b>nos contornos de grão γ</b> (C da γ ≈ ${Cg.toFixed(2)} %). Alavanca → Fe₃C = <b>${fmt(fC)}%</b>. Resfriar devagar daqui gera a temida <b>rede de cementita</b> contínua.`};
+    }
+    const fCpro=clamp((C-0.77)/5.9,0,1),fPer=1-fCpro;
+    return{region:'Perlita + rede de Fe₃C',fr:[['Perlita',fPer],['Cementita',fCpro]],
+      draw:{mode:'net',fNet:fCpro,pearl:true},
+      txt:`Abaixo de A1: perlita com <b>cementita pró-eutetoide em rede nos contornos</b> (${fmt(fCpro)}%). Essa rede contínua e frágil é o motivo da <b>esferoidização</b> ser obrigatória antes de conformar aços &gt;0,8 %C.`};
+  }
+}
+function drawEquil(){
+  const st=eqState();
+  const ctx=eqCv.getContext('2d'),w=eqCv.clientWidth,h=parseInt(eqCv.dataset.h);
+  const d=st.draw;
+  if(d.mode==='liq'){
+    ctx.clearRect(0,0,w,h);
+    const g=ctx.createLinearGradient(0,0,0,h);
+    g.addColorStop(0,CLR.liq1);g.addColorStop(1,CLR.liq2);
+    ctx.fillStyle=g;ctx.fillRect(0,0,w,h);
+    const R=rng(31);
+    ctx.strokeStyle='rgba(255,240,200,0.5)';ctx.lineWidth=2;
+    for(let i=0;i<10;i++){ctx.beginPath();
+      ctx.arc(R()*w,R()*h,10+R()*30,R()*6,R()*6+2+R()*2);ctx.stroke();}
+    if(d.fG>0.01){
+      EQG.forEach((gr,i)=>{
+        if(i/EQG.length>d.fG)return;
+        const R2=rng(500+i);
+        ctx.fillStyle=shade(CLR.gamma,gr.tint);
+        blob(ctx,gr.c.x,gr.c.y,gr.rad*0.62,R2);ctx.fill();
+        ctx.strokeStyle=CLR.gammaEdge;ctx.lineWidth=1;
+        blob(ctx,gr.c.x,gr.c.y,gr.rad*0.62,rng(500+i));ctx.stroke();
+      });
+    }
+    finish(ctx,w,h);
+  }else if(d.mode==='net'){
+    const base=d.pearl?{mode:'sim',fF:0,fP:1,fB:0,fM:0,fG:0,fFmax:0.02,fPmax:1,spacing:5}
+                      :{mode:'sim',fF:0,fP:0,fB:0,fM:0,fG:1,fFmax:1,fPmax:1};
+    drawField(eqCv,EQG,base,true);
+    ctx.save();
+    ctx.strokeStyle=CLR.carb;ctx.lineWidth=1.5+d.fNet*26;
+    ctx.lineJoin='round';
+    EQG.forEach(g=>{pathOf(ctx,g.poly);ctx.stroke();});
+    ctx.restore();
+    finish(ctx,w,h);
+  }else{
+    drawField(eqCv,EQG,d);
+  }
+  // marcador no diagrama Fe-C
+  const mx=70+EQ.C*99,my=clamp(420-(EQ.T-400)/3,22,418);
+  const mk=document.getElementById('fecMark'),h1=document.getElementById('fecMkH'),v1=document.getElementById('fecMkV');
+  mk.setAttribute('cx',mx);mk.setAttribute('cy',my);
+  h1.setAttribute('y1',my);h1.setAttribute('y2',my);
+  v1.setAttribute('x1',mx);v1.setAttribute('x2',mx);
+  // saída
+  document.getElementById('eqRegion').textContent=st.region;
+  document.getElementById('eqTT').textContent=EQ.T.toFixed(0)+' °C';
+  const colors={'Líquido':CLR.liq1,'Austenita':CLR.gamma,'Ferrita':CLR.fer,'Perlita':CLR.pearlLight,'Cementita':CLR.carb};
+  const tcol={'Cementita':'#fff','Líquido':'#5A3A00'};
+  document.getElementById('eqFrac').innerHTML=st.fr.filter(s=>s[1]>0.005)
+    .map(s=>`<div style="flex:${s[1]};background:${colors[s[0]]};color:${tcol[s[0]]||'#2B3B4D'}">${s[1]>0.13?fmt(s[1])+'%':''}</div>`).join('');
+  document.getElementById('eqLegend').innerHTML=st.fr.filter(s=>s[1]>0.005)
+    .map(s=>`<span><i style="background:${colors[s[0]]}"></i>${s[0]} ${fmt(s[1])}%</span>`).join('');
+  document.getElementById('eqOut').innerHTML=st.txt;
+}
+function eqRender(){
+  document.getElementById('eqCv').textContent=EQ.C.toFixed(2).replace('.',',');
+  document.getElementById('eqTv').textContent=EQ.T.toFixed(0)+' °C';
+  drawEquil();
+}
+document.getElementById('eqC').addEventListener('input',e=>{EQ.C=e.target.value/100;eqRender();});
+document.getElementById('eqT').addEventListener('input',e=>{EQ.T=parseFloat(e.target.value);eqRender();});
+document.getElementById('eqTabs').addEventListener('click',e=>{
+  const b=e.target.closest('.evt');if(!b)return;
+  document.querySelectorAll('#eqTabs .evt').forEach(x=>x.classList.remove('sel'));
+  b.classList.add('sel');
+  const atom=b.dataset.v==='atom';
+  document.getElementById('eqWrapMicro').style.display=atom?'none':'block';
+  document.getElementById('eqWrapAtom').style.display=atom?'block':'none';
+  if(atom){latBuild(eqLat);eqAtomUpdate();}else eqRender();
+});
+
+/* ============ GALERIA ============ */
+const PRESETS={
+  pgrossa:{fF:0.42,fP:0.58,fB:0,fM:0,fG:0,fFmax:0.42,fPmax:0.58,spacing:9,mode:'sim'},
+  pfina:  {fF:0.30,fP:0.70,fB:0,fM:0,fG:0,fFmax:0.30,fPmax:0.70,spacing:2.6,mode:'sim'},
+  esfero: {mode:'esfero'},
+  bainita:{fF:0,fP:0,fB:1,fM:0,fG:0,fFmax:0.02,fPmax:1,spacing:0,mode:'sim'},
+  mart:   {fF:0,fP:0,fB:0,fM:0.88,fG:0.12,fFmax:0.02,fPmax:1,spacing:0,mode:'sim'},
+  revenida:{fF:0,fP:0,fB:0,fM:0.97,fG:0.03,fFmax:0.02,fPmax:1,spacing:0,mode:'revenida'}
+};
+function drawGallery(){
+  document.querySelectorAll('.gc').forEach((c,i)=>{
+    const w=c.clientWidth||160,h=parseInt(c.dataset.h),dpr=Math.min(2,devicePixelRatio||1);
+    c.width=w*dpr;c.height=h*dpr;c.style.height=h+'px';
+    c.getContext('2d').setTransform(dpr,0,0,dpr,0,0);
+    drawField(c,buildGrains(w,h,7,17+i*13),PRESETS[c.dataset.preset]);
+  });
+}
+
+/* ============ CALCULADORAS ============ */
+function msCalc(){
+  const v=id=>parseFloat(document.getElementById(id).value)||0;
+  const C=v('msC'),Ms=539-423*C-30.4*v('msMn')-17.7*v('msNi')-12.1*v('msCr')-7.5*v('msMo'),Mf=Ms-215;
+  const note=C>0.6?'⚠ %C &gt; 0,6: fora da faixa de Andrews — ordem de grandeza.':
+    (Mf<25?'⚠ Mf abaixo da T ambiente → esperar <b>austenita retida</b>: avalie subzero ou revenidos múltiplos.':
+    '✓ Mf acima da T ambiente: transformação tende a completar-se na têmpera.');
+  document.getElementById('msOut').innerHTML='Ms ≈ <b>'+Ms.toFixed(0)+' °C</b> · Mf ≈ <b>'+Mf.toFixed(0)+' °C</b> <span style="color:#9FB3C8">(Mf pela regra Ms−215: aproximação grosseira — p/ projeto, dilatometria)</span><br>'+note;
+}
+['msC','msMn','msNi','msCr','msMo'].forEach(i=>document.getElementById(i).addEventListener('input',msCalc));
+function hz(){
+  const f=parseFloat(document.getElementById('hzT').value);
+  const t=parseFloat(document.getElementById('hzt').value)||0;
+  const d=parseFloat(document.getElementById('hzd').value);
+  let o='';
+  if(t>0)o+='Prof. de difusão ≈ p/ <b>'+t+' h</b>: <b>'+(f*Math.sqrt(t)).toFixed(2)+' mm</b><br>';
+  if(d>0)o+='Tempo ≈ p/ <b>'+d+' mm</b>: <b>'+Math.pow(d/f,2).toFixed(1)+' h</b><br>';
+  o+='<span style="color:#9FB3C8">d = f·√t (lei parabólica): dobrar a camada quadruplica o tempo. Estimativa didática — especifique CHD por norma (ISO 2639/18203) e valide com microdureza.</span>';
+  document.getElementById('hzOut').innerHTML=o;
+}
+['hzT','hzt','hzd'].forEach(i=>document.getElementById(i).addEventListener('input',hz));
+const TBL=[[800,64.0,null],[750,62.5,null],[700,60.1,615],[650,57.8,577],[600,55.2,535],
+[550,52.3,495],[500,49.1,466],[450,45.3,421],[400,40.8,379],[350,35.5,331],
+[300,29.8,284],[250,22.2,238],[220,17.0,209],[200,null,190],[150,null,143],[100,null,95]];
+function interp(x,ci,co){
+  const pts=TBL.filter(r=>r[ci]!=null&&r[co]!=null).sort((a,b)=>a[ci]-b[ci]);
+  if(!pts.length||x<pts[0][ci]||x>pts[pts.length-1][ci])return null;
+  for(let i=0;i<pts.length-1;i++){const a=pts[i],b=pts[i+1];
+    if(x>=a[ci]&&x<=b[ci]){const t=(x-a[ci])/(b[ci]-a[ci]);return a[co]+t*(b[co]-a[co]);}}
+  return null;
+}
+function conv(){
+  const v=parseFloat(document.getElementById('cvV').value),s=document.getElementById('cvS').value;
+  const ci={HV:0,HRC:1,HB:2}[s];
+  if(isNaN(v)){document.getElementById('cvOut').innerHTML='Digite um valor.';return;}
+  const hv=ci===0?v:interp(v,ci,0);
+  const hrc=ci===1?v:(hv!=null?interp(hv,0,1):null);
+  const hb=ci===2?v:(hv!=null?interp(hv,0,2):null);
+  const f=x=>x==null?'<span style="color:#7E92A6">—</span>':'<b>'+x.toFixed(0)+'</b>';
+  document.getElementById('cvOut').innerHTML='HV '+f(hv)+' · HRC '+f(hrc)+' · HB '+f(hb)+
+  '<br><span style="color:#9FB3C8">Regra: HB ≈ 0,95·HV (até ~450 HV); HRC 60 ≈ 700 HV.</span>';
+}
+['cvV','cvS'].forEach(i=>document.getElementById(i).addEventListener('input',conv));
+
+/* =========================================================
+   V6 — ESCALA ATÔMICA
+   ========================================================= */
+const AT={fe:'#9FB6CC',feEdge:'#5A7186',feC:'#7E97AD',carb:'#E4584B',bg:'#131A25',
+          cemBg:'#2A2130',grid:'#233043'};
+function latTag(ctx,x,y,txt){
+  ctx.save();
+  ctx.font='10.5px IBM Plex Mono, monospace';
+  const w=ctx.measureText(txt).width;
+  ctx.fillStyle='rgba(255,255,255,0.94)';
+  ctx.beginPath();
+  if(ctx.roundRect)ctx.roundRect(x-5,y-11.5,w+10,16,4);else ctx.rect(x-5,y-11.5,w+10,16);
+  ctx.fill();
+  ctx.strokeStyle='rgba(24,32,43,0.3)';ctx.lineWidth=1;ctx.stroke();
+  ctx.fillStyle='#18202B';ctx.fillText(txt,x,y+1);
+  ctx.restore();
+}
+function fitCv(cv){
+  const w=cv.clientWidth||320,hh=parseInt(cv.dataset.h),dpr=Math.min(2,devicePixelRatio||1);
+  cv.width=w*dpr;cv.height=hh*dpr;cv.style.height=hh+'px';
+  cv.getContext('2d').setTransform(dpr,0,0,dpr,0,0);
+  return {w,h:hh};
+}
+/* ---------- CÉLULA UNITÁRIA v8: cubos como no livro-texto ---------- */
+const BAIN={mode:'gamma',t0:0,dur:700};
+const bainCv=document.getElementById('bainCv');
+const BTXT={
+  gamma:'<b>Austenita γ — CFC:</b> Fe nos <b>8 vértices + 6 centros de face</b> (cada vértice é dividido por 8 células, cada face por 2 → 4 átomos por célula). Empacotamento de 74 % — a rede mais compacta e, mesmo assim, com o <b>maior interstício</b>: o sítio octaédrico no centro do cubo, onde o C (vermelho) mora.',
+  alpha:'<b>Ferrita α — CCC:</b> Fe nos <b>8 vértices + 1 átomo no centro do corpo</b> (2 átomos por célula, 68 % de empacotamento). Menos densa no total, porém os vazios são <b>menores e achatados</b> — o C vermelho está espremido no <b>sítio octaédrico da aresta</b> (anel tracejado = espaço disponível): por isso cabem no máximo <b>0,022 %C</b>.',
+  diff:'<b>Resfriamento lento (γ → α por difusão):</b> a reacomodação move cada Fe menos de meio raio atômico (correspondência de Bain) — centros de face da CFC viram vértices e corpo centrado da nova CCC. Com tempo, o C <b>salta de interstício em interstício para fora</b> e se agrupa em <b>Fe₃C</b> → perlita. A CCC nasce relaxada: ferrita macia.',
+  mart:'<b>Resfriamento rápido (γ → martensita):</b> a mesma reacomodação acontece por cisalhamento, em microssegundos — e o C <b>não sai</b>: fica preso no interstício achatado da nova célula. O cubo não fecha: trava <b>tetragonal, c/a ≈ 1,06</b> (exagerado no desenho para enxergar), sob tensão elástica. Multiplicada por 10²⁰ células, essa distorção é a dureza da martensita.'
+};
+function bainSet(m){
+  BAIN.mode=m;BAIN.t0=performance.now();
+  BAIN.dur=m==='diff'?5000:(m==='mart'?2200:600);
+  document.getElementById('bainOut').innerHTML=BTXT[m];
+}
+document.getElementById('bainBtns').addEventListener('click',e=>{
+  const b=e.target.closest('.chip');if(!b)return;
+  document.querySelectorAll('#bainBtns .chip').forEach(x=>x.classList.remove('sel'));
+  b.classList.add('sel');bainSet(b.dataset.b);
+});
+const smooth=(x,a,b)=>{const t=Math.max(0,Math.min(1,(x-a)/(b-a)));return t*t*(3-2*t);};
+/* cubo em perspectiva cavaleira (como o livro): frente quadrada, fundo deslocado, ocultas tracejadas */
+function cubeGeom(cx,cy,L,vs){
+  const dx=L*0.46,dy=-L*0.36,hv=L/2*(vs||1);
+  const F=[[cx-L/2,cy+hv],[cx+L/2,cy+hv],[cx+L/2,cy-hv],[cx-L/2,cy-hv]];   // bl br tr tl
+  const B=F.map(p=>[p[0]+dx,p[1]+dy]);
+  return {F,B};
+}
+const cAvg=(...ps)=>[ps.reduce((s,p)=>s+p[0],0)/ps.length,ps.reduce((s,p)=>s+p[1],0)/ps.length];
+function cubeEdges(g){const{F,B}=g;return[
+  [F[0],F[1],0],[F[1],F[2],0],[F[2],F[3],0],[F[3],F[0],0],
+  [B[1],B[2],0],[B[2],B[3],0],
+  [F[1],B[1],0],[F[2],B[2],0],[F[3],B[3],0],
+  [B[0],B[1],1],[B[3],B[0],1],[F[0],B[0],1]];}
+function cubeAtoms(g,type){
+  const{F,B}=g,pts=[];
+  pts.push({p:B[0],z:0},{p:B[1],z:0},{p:B[2],z:0},{p:B[3],z:0});
+  if(type==='fcc'){
+    pts.push({p:cAvg(...B),z:0});
+    pts.push({p:cAvg(F[0],F[3],B[0],B[3]),z:1},{p:cAvg(F[2],F[3],B[2],B[3]),z:1},
+             {p:cAvg(F[0],F[1],B[0],B[1]),z:1},{p:cAvg(F[1],F[2],B[1],B[2]),z:1});
+  }else{
+    pts.push({p:cAvg(...F,...B),z:1,ctr:true});
+  }
+  pts.push({p:F[0],z:2},{p:F[1],z:2},{p:F[2],z:2},{p:F[3],z:2});
+  if(type==='fcc')pts.push({p:cAvg(...F),z:2});
+  return pts;
+}
+function ball(ctx,x,y,r,color,edge,alpha){
+  ctx.save();ctx.globalAlpha=alpha;
+  const g=ctx.createRadialGradient(x-r*0.35,y-r*0.35,r*0.15,x,y,r);
+  g.addColorStop(0,color==='c'?'#F19A8E':'#D8E5F0');
+  g.addColorStop(1,color==='c'?AT.carb:AT.fe);
+  ctx.fillStyle=g;ctx.beginPath();ctx.arc(x,y,r,0,7);ctx.fill();
+  ctx.strokeStyle=edge||AT.feEdge;ctx.lineWidth=0.9;ctx.stroke();
+  ctx.restore();
+}
+function drawCube(ctx,cx,cy,L,type,alpha,ts,opts){
+  opts=opts||{};
+  const g=cubeGeom(cx,cy,L,opts.vs);
+  const jig=i=>[Math.sin(ts*0.004+i*1.7)*(0.8+(opts.shake||0)),
+                Math.cos(ts*0.0034+i*2.3)*(0.8+(opts.shake||0))];
+  ctx.save();ctx.globalAlpha=alpha;
+  ctx.strokeStyle='#7E92A6';
+  cubeEdges(g).forEach(([a,b,hid])=>{
+    ctx.setLineDash(hid?[5,4]:[]);ctx.lineWidth=hid?1.1:1.5;
+    ctx.beginPath();ctx.moveTo(a[0],a[1]);ctx.lineTo(b[0],b[1]);ctx.stroke();
+  });
+  ctx.setLineDash([]);
+  ctx.restore();
+  const r=L*0.105;
+  cubeAtoms(g,type).forEach((a,i)=>{
+    const[jx,jy]=jig(i);
+    ball(ctx,a.p[0]+jx,a.p[1]+jy,a.ctr?r*1.12:r,'fe',null,alpha*(a.z===0?0.72:1));
+  });
+  if(opts.C&&opts.C.alpha!==0){
+    const[jx,jy]=jig(30);
+    let px,py;
+    if(opts.C.site==='body'){const c=cAvg(...g.F,...g.B);px=c[0];py=c[1];}
+    else{px=(g.F[1][0]+g.F[2][0])/2;py=(g.F[1][1]+g.F[2][1])/2;}   // meio da aresta vertical frontal-direita
+    if(opts.C.halo){ctx.save();ctx.globalAlpha=opts.C.alpha;
+      ctx.beginPath();ctx.arc(px+jx,py+jy,r*0.75+5+Math.sin(ts*0.008)*2,0,7);
+      ctx.fillStyle='rgba(228,88,75,0.22)';ctx.fill();ctx.restore();}
+    if(opts.C.squeeze){ // sítio octaédrico achatado do CCC: o C mal cabe
+      ctx.save();ctx.globalAlpha=opts.C.alpha;
+      ctx.strokeStyle='rgba(228,88,75,0.65)';ctx.setLineDash([3,3]);ctx.lineWidth=1.2;
+      ctx.beginPath();ctx.ellipse(px+jx,py+jy,r*0.8,r*0.5,0,0,7);ctx.stroke();
+      ctx.setLineDash([]);ctx.restore();
+    }
+    ball(ctx,px+jx,py+jy,r*(opts.C.squeeze?0.45:0.62),'c','#7E2A22',opts.C.alpha);
+    if(opts.C.squeeze){
+      ctx.save();ctx.globalAlpha=opts.C.alpha;
+      ctx.fillStyle='#E4A25B';ctx.font='10px IBM Plex Mono, monospace';
+      ctx.fillText('≤ 0,022 %C',px+14,py+4);ctx.restore();
+    }
+  }
+  return g;
+}
+function bainStep(ts){
+  const sz=bainCv._sz||(bainCv._sz=fitCv(bainCv));
+  const{w,h:H}=sz,ctx=bainCv.getContext('2d');
+  const raw=Math.min(1,(ts-BAIN.t0)/BAIN.dur);
+  ctx.fillStyle=AT.bg;ctx.fillRect(0,0,w,H);
+  const ca=document.getElementById('bainCA');
+  ctx.font='11px IBM Plex Mono, monospace';
+  if(BAIN.mode==='gamma'){
+    drawCube(ctx,w/2-14,H/2+8,Math.min(w*0.34,120),'fcc',1,ts,{C:{site:'body',alpha:1}});
+    latTag(ctx,10,16,'CFC · 8 vértices + 6 faces');
+    ca.textContent='CFC · a ≈ 3,6 Å';
+  }else if(BAIN.mode==='alpha'){
+    drawCube(ctx,w/2-14,H/2+8,Math.min(w*0.34,120),'bcc',1,ts,
+      {C:{site:'edge',alpha:1,squeeze:true}});
+    latTag(ctx,10,16,'CCC · 8 vértices + 1 centro');
+    ca.textContent='CCC · a ≈ 2,9 Å';
+  }else{
+    const L=Math.min(w*0.24,86),lx=w*0.26,rx=w*0.74,cy=H/2-4;
+    const leftFade=1-0.62*smooth(raw,0.12,0.5);
+    const rightIn=0.22+0.78*smooth(raw,0.25,0.72);
+    if(BAIN.mode==='diff'){
+      const esc=smooth(raw,0.15,0.72);
+      drawCube(ctx,lx-8,cy,L,'fcc',leftFade,ts,
+        esc<0.05?{C:{site:'body',alpha:1}}:{});
+      drawCube(ctx,rx,cy,L,'bcc',rightIn,ts,{});
+      if(esc>=0.05){ // C saltando para fora, em 3 pulos, até virar Fe₃C
+        const x0=lx-8+ (cubeGeom(lx-8,cy,L).F[1][0]-(lx-8))*0 , y0=cy;
+        const tx=w*0.5,ty=H-34;
+        const k=Math.min(1,esc*1.05),hop=Math.floor(k*3)/3,frac=(k*3)%1;
+        const seg=hop+frac/3;
+        const px=(lx-8)+(tx-(lx-8))*seg, py=cy+(ty-cy)*seg-Math.sin(frac*Math.PI)*14;
+        if(k<0.97)ball(ctx,px,py,5.5,'c','#7E2A22',1);
+        if(esc>0.75){ // aglomerado Fe₃C
+          const a=smooth(esc,0.75,1);
+          ball(ctx,tx-10,ty,6,'fe',null,a);ball(ctx,tx+9,ty+2,6,'fe',null,a);ball(ctx,tx,ty+8,6,'fe',null,a);
+          ball(ctx,tx,ty-4,4,'c','#7E2A22',a);ball(ctx,tx-8,ty+8,4,'c','#7E2A22',a);ball(ctx,tx+9,ty-6,4,'c','#7E2A22',a);
+          ctx.save();ctx.globalAlpha=a;ctx.fillStyle='#E4A25B';
+          ctx.fillText('Fe₃C',tx+18,ty+4);ctx.restore();
+        }
+      }
+      latTag(ctx,lx-32,16,'γ CFC');latTag(ctx,rx-26,16,'α CCC');
+      ca.textContent=raw<1?'C saindo por difusão…':'CCC · a ≈ 2,9 Å';
+    }else{ // mart
+      const q=smooth(raw,0.3,0.75),shake=raw>0.8?1.1:0;
+      // C no CFC da esquerda enquanto a transformação não avança
+      const gL=drawCube(ctx,lx-8,cy,L,'fcc',leftFade,ts,
+        q<0.35?{C:{site:'body',alpha:leftFade}}:{});
+      const gR=drawCube(ctx,rx,cy,L,'bcc',rightIn,ts,
+        {vs:1+0.14*q,shake,C:q>=0.85?{site:'edge',alpha:rightIn,halo:true}:null});
+      // C viajando junto com o cisalhamento (preso: não sai da rede)
+      if(q>=0.35&&q<0.85){
+        const p0=cAvg(...gL.F,...gL.B);
+        const p1=[(gR.F[1][0]+gR.F[2][0])/2,(gR.F[1][1]+gR.F[2][1])/2];
+        const k=(q-0.35)/0.5;
+        ball(ctx,p0[0]+(p1[0]-p0[0])*k,p0[1]+(p1[1]-p0[1])*k-Math.sin(k*Math.PI)*10,
+             L*0.065,'c','#7E2A22',1);
+      }
+      latTag(ctx,lx-32,16,'γ CFC');latTag(ctx,rx-56,16,'martensita TCC');
+      ca.textContent=raw<0.75?'cisalhamento…':'TCC · c/a ≈ 1,06 · C preso';
+    }
+    // seta entre os cubos
+    ctx.strokeStyle='#E8955B';ctx.lineWidth=2;
+    ctx.beginPath();ctx.moveTo(lx+L*0.62,cy);ctx.lineTo(rx-L*0.72,cy);ctx.stroke();
+    ctx.beginPath();ctx.moveTo(rx-L*0.72,cy);ctx.lineTo(rx-L*0.72-7,cy-5);ctx.moveTo(rx-L*0.72,cy);ctx.lineTo(rx-L*0.72-7,cy+5);ctx.stroke();
+  }
+}
+
+
+/* ---------- REDES 2D ANIMADAS ---------- */
+const LATS=[];
+function makeLat(cv){const o={cv,mode:'',sub:null,T:850,C:0.45,fe:[],carb:[],inter:[],bonds:[],built:''};LATS.push(o);return o;}
+function latBuildHalf(o,x0,x1,mode,seed){
+  const {h}=o.cv._sz, R=rng(seed);
+  const fe=[],inter=[],bonds=[];
+  if(mode==='fcc'){
+    const s=24,dy=s*0.866;
+    for(let r=0,y=12;y<h-8;r++,y+=dy)
+      for(let x=x0+10+(r%2?s/2:0);x<x1-8;x+=s){
+        fe.push({x,y,r:7,ph:R()*9});
+        inter.push({x:x+s/2,y:y+dy/3});
+      }
+    // ligações por distância: gera os triângulos do plano (111)
+    for(let i=0;i<fe.length;i++)for(let j=i+1;j<fe.length;j++){
+      const d=Math.hypot(fe[i].x-fe[j].x,fe[i].y-fe[j].y);
+      if(d>s*0.55&&d<s*1.12)bonds.push([fe[i],fe[j]]);
+    }
+    o.plane='CFC · plano (111)';
+  }else if(mode==='bcc'||mode==='mart'){
+    const s=29,sh=mode==='mart'?0.30:0,vy=mode==='mart'?1.15:1,grid=[];
+    for(let y=13,ri=0;y<h-8;y+=s*vy,ri++){
+      const row=[];
+      for(let x=x0+12;x<x1-8;x+=s){
+        const dx=(y-h/2)*sh;
+        const a={x:x+dx,y,r:6.8,ph:R()*9};fe.push(a);row.push(a);
+        inter.push({x:x+dx+s/2,y,noC:mode==='bcc'});
+      }
+      grid.push(row);
+    }
+    grid.forEach((row,ri)=>row.forEach((a,ci)=>{
+      if(row[ci+1])bonds.push([a,row[ci+1]]);
+      if(grid[ri+1]&&grid[ri+1][ci])bonds.push([a,grid[ri+1][ci]]);
+    }));
+    // átomos de centro (do plano de baixo) + diagonais
+    let hlDone=false;
+    grid.forEach((row,ri)=>row.forEach((a,ci)=>{
+      const b=row[ci+1],c=grid[ri+1]&&grid[ri+1][ci],d=grid[ri+1]&&grid[ri+1][ci+1];
+      if(b&&c&&d){
+        const ctr={x:(a.x+d.x)/2,y:(a.y+d.y)/2,r:5.6,ph:R()*9,ctr:true};
+        fe.push(ctr);
+        bonds.push([a,ctr],[b,ctr],[c,ctr],[d,ctr]);
+        if(mode==='mart'&&!hlDone&&ri===Math.floor(grid.length/2)&&ci===Math.floor(row.length/2)){
+          o.hlCell={a,b,c,d,ctr};hlDone=true;
+        }
+      }
+    }));
+    o.plane=mode==='mart'?'CCC distorcido · C preso':'CCC · plano (100)';
+  }else if(mode==='pearl'||mode==='cem'){
+    let x=x0+2,band=mode==='cem'?1:0;
+    while(x<x1-2){
+      const bw=band?16:34,x2=Math.min(x1-2,x+bw);
+      if(band){
+        fe.push({band:[x,x2]});
+        for(let y=12;y<h-8;y+=11)for(let xx=x+4;xx<x2-2;xx+=9){
+          fe.push({x:xx,y,r:3.4,ph:R()*9,dark:true});
+          if((y/11|0)%2)inter.push({x:xx+4,y:y+5,fixed:true});
+        }
+      }else{
+        const grid=[];
+        for(let y=14;y<h-8;y+=18){const row=[];
+          for(let xx=x+7;xx<x2-5;xx+=18){const a={x:xx,y,r:5.4,ph:R()*9};fe.push(a);row.push(a);}
+          grid.push(row);}
+        grid.forEach((row,ri)=>row.forEach((a,ci)=>{
+          if(row[ci+1])bonds.push([a,row[ci+1]]);
+          if(grid[ri+1]&&grid[ri+1][ci])bonds.push([a,grid[ri+1][ci]]);}));
+      }
+      x=x2;band=mode==='cem'?1:1-band;
+    }
+    o.plane=mode==='cem'?'Fe₃C ordenado':'lamelas α ⁄ Fe₃C';
+  }else if(mode==='bain'){
+    const s=26,grid=[];
+    for(let y=12;y<h-8;y+=s){const row=[];
+      for(let x=x0+12;x<x1-8;x+=s){const a={x,y,r:6.2,ph:R()*9};fe.push(a);row.push(a);}
+      grid.push(row);}
+    grid.forEach((row,ri)=>row.forEach((a,ci)=>{
+      if(row[ci+1])bonds.push([a,row[ci+1]]);
+      if(grid[ri+1]&&grid[ri+1][ci])bonds.push([a,grid[ri+1][ci]]);}));
+    for(let k=0;k<4;k++){
+      const bx=x0+22+R()*(x1-x0-44),by=16+R()*(h-32);
+      fe.push({clu:[bx,by,9+R()*5]});
+      for(let j=0;j<4;j++)inter.push({x:bx+(R()-.5)*14,y:by+(R()-.5)*10,fixed:true});
+    }
+    o.plane='α + carbonetos finos';
+  }else if(mode==='liq'){
+    const n=((x1-x0)*h)/430|0;
+    for(let i=0;i<n;i++)fe.push({x:x0+8+R()*(x1-x0-16),y:8+R()*(h-16),r:6.4,ph:R()*9,
+      vx:(R()-.5)*0.5,vy:(R()-.5)*0.5,liq:true,x0,x1});
+    for(let i=0;i<10;i++)inter.push({x:x0+10+R()*(x1-x0-20),y:10+R()*(h-20),drift:true});
+    o.plane='sem ordem de longo alcance';
+  }
+  return {fe,inter,bonds};
+}
+function latBuild(o){
+  o.cv._sz=fitCv(o.cv);
+  const {w}=o.cv._sz,R=rng(5);
+  o.fe=[];o.inter=[];o.bonds=[];o.halves=null;o.hlCell=null;
+  if(o.mode==='mix'){
+    const mid=w/2;
+    const A=latBuildHalf(o,0,mid-5,o.sub[0],3),B=latBuildHalf(o,mid+5,w,o.sub[1],4);
+    o.fe=A.fe.concat(B.fe);o.inter=A.inter.concat(B.inter);o.bonds=A.bonds.concat(B.bonds);o.halves=mid;
+  }else{
+    const r=latBuildHalf(o,0,w,o.mode,3);o.fe=r.fe;o.inter=r.inter;o.bonds=r.bonds;
+  }
+  const free=o.inter.filter(i=>!i.fixed&&!i.noC);
+  const nC=(o.mode==='bcc')?0:Math.min(free.length,Math.max(1,Math.round(o.C*12)));
+  o.carb=[];
+  for(let i=0;i<nC&&free.length;i++){
+    const s=free[(R()*free.length)|0];
+    o.carb.push({x:s.x,y:s.y,tx:s.x,ty:s.y,p:1});
+  }
+  o.carbFix=o.inter.filter(i=>i.fixed);
+  o.built=o.mode+'|'+(o.sub||'')+'|'+o.C;
+}
+function latSet(o,opts){
+  Object.assign(o,opts);
+  const key=o.mode+'|'+(o.sub||'')+'|'+o.C;
+  if(key!==o.built)latBuild(o);
+}
+function latDraw(o,ts){
+  const {w,h}=o.cv._sz,ctx=o.cv.getContext('2d');
+  const amp=o.mode==='mart'?0.35:Math.min(2.0,Math.max(0.12,(o.T-20)/750))*(o.mode==='liq'?1.6:1);
+  const J=a=>a.liq?[0,0]:[Math.sin(ts*0.004+a.ph)*amp,Math.cos(ts*0.0035+a.ph*1.6)*amp];
+  ctx.fillStyle=AT.bg;ctx.fillRect(0,0,w,h);
+  o.fe.forEach(a=>{
+    if(a.band){ctx.fillStyle=AT.cemBg;ctx.fillRect(a.band[0],4,a.band[1]-a.band[0],h-8);}
+    if(a.clu){ctx.fillStyle=AT.cemBg;ctx.beginPath();ctx.ellipse(a.clu[0],a.clu[1],a.clu[2]*1.5,a.clu[2],0.4,0,7);ctx.fill();}
+  });
+  // ligações (mostram a GEOMETRIA da rede: triângulos CFC vs quadrados+diagonais CCC)
+  ctx.strokeStyle=o.mode==='mart'?'rgba(38,54,75,0.5)':'#26364B';ctx.lineWidth=1;
+  o.bonds.forEach(([a,b])=>{
+    const[jx,jy]=J(a),[kx,ky]=J(b);
+    ctx.beginPath();ctx.moveTo(a.x+jx,a.y+jy);ctx.lineTo(b.x+kx,b.y+ky);ctx.stroke();
+  });
+  o.fe.forEach(a=>{
+    if(a.band||a.clu)return;
+    let x=a.x,y=a.y;
+    if(a.liq){
+      a.x+=a.vx*amp;a.y+=a.vy*amp;
+      if(a.x<a.x0+6||a.x>a.x1-6)a.vx*=-1;
+      if(a.y<6||a.y>h-6)a.vy*=-1;
+      x=a.x;y=a.y;
+    }else{const[jx,jy]=J(a);x+=jx;y+=jy;}
+    ctx.fillStyle=a.dark?'#C9B8A6':(a.ctr?AT.feC:AT.fe);
+    ctx.beginPath();ctx.arc(x,y,a.r,0,7);ctx.fill();
+    ctx.strokeStyle=a.dark?'#8A7660':AT.feEdge;ctx.lineWidth=0.6;ctx.stroke();
+  });
+  /* martensita: célula distorcida destacada + eixo esticado */
+  if(o.mode==='mart'&&o.hlCell){
+    const H=o.hlCell,J2=a=>J(a);
+    const p=[H.a,H.b,H.d,H.c].map(a=>{const[jx,jy]=J2(a);return[a.x+jx,a.y+jy];});
+    ctx.save();
+    ctx.strokeStyle='#E8955B';ctx.lineWidth=2.4;
+    ctx.beginPath();p.forEach((q,i)=>i?ctx.lineTo(q[0],q[1]):ctx.moveTo(q[0],q[1]));ctx.closePath();ctx.stroke();
+    // seta dupla do eixo c esticado (entre a e c)
+    const mx=(p[0][0]+p[1][0])/2+16, y1=p[0][1]-6, y2=p[3][1]+6;
+    ctx.strokeStyle='#E4584B';ctx.lineWidth=2;
+    ctx.beginPath();ctx.moveTo(mx,y1);ctx.lineTo(mx,y2);ctx.stroke();
+    [[y1,1],[y2,-1]].forEach(([yy,s2])=>{ctx.beginPath();
+      ctx.moveTo(mx,yy);ctx.lineTo(mx-4,yy+5*s2);ctx.moveTo(mx,yy);ctx.lineTo(mx+4,yy+5*s2);ctx.stroke();});
+    ctx.restore();
+    latTag(ctx,Math.min(p[1][0]+10,o.cv._sz.w-150),p[0][1]-4,'célula esticada pelo C');
+  }
+  ctx.fillStyle=AT.carb;
+  o.carbFix.forEach(c=>{ctx.beginPath();ctx.arc(c.x,c.y,2.6,0,7);ctx.fill();});
+  const hopP=(o.mode==='fcc'||o.mode==='liq'||o.mode==='mix')?Math.max(0,(o.T-380))/9000:0;
+  o.carb.forEach(c=>{
+    if(c.p>=1&&Math.random()<hopP&&o.inter.length){
+      const near=o.inter.filter(s=>!s.fixed&&!s.noC&&Math.hypot(s.x-c.tx,s.y-c.ty)<40&&Math.hypot(s.x-c.tx,s.y-c.ty)>4);
+      if(near.length){const s=near[(Math.random()*near.length)|0];
+        c.fx=c.tx;c.fy=c.ty;c.tx=s.x;c.ty=s.y;c.p=0;}
+    }
+    if(c.p<1){c.p=Math.min(1,c.p+0.06);
+      const e=c.p*c.p*(3-2*c.p);
+      c.x=c.fx+(c.tx-c.fx)*e;c.y=c.fy+(c.ty-c.fy)*e;
+    }else{c.x=c.tx;c.y=c.ty;}
+    const jx=Math.sin(ts*0.005+c.tx)*amp*0.6,jy=Math.cos(ts*0.004+c.ty)*amp*0.6;
+    if(o.mode==='mart'){
+      ctx.beginPath();ctx.arc(c.x+jx,c.y+jy,7,0,7);
+      ctx.fillStyle='rgba(228,88,75,0.2)';ctx.fill();
+      ctx.save();ctx.strokeStyle='rgba(228,88,75,0.8)';ctx.lineWidth=1.2;
+      for(let a2=Math.PI/4;a2<2*Math.PI;a2+=Math.PI/2){
+        ctx.beginPath();
+        ctx.moveTo(c.x+jx+Math.cos(a2)*8,c.y+jy+Math.sin(a2)*8);
+        ctx.lineTo(c.x+jx+Math.cos(a2)*13,c.y+jy+Math.sin(a2)*13);
+        ctx.stroke();
+      }
+      ctx.restore();
+    }
+    ctx.fillStyle=AT.carb;ctx.beginPath();ctx.arc(c.x+jx,c.y+jy,3,0,7);ctx.fill();
+    ctx.strokeStyle='#7E2A22';ctx.lineWidth=0.7;ctx.stroke();
+  });
+  if(o.halves){
+    ctx.strokeStyle='#55677A';ctx.setLineDash([4,4]);
+    ctx.beginPath();ctx.moveTo(o.halves,4);ctx.lineTo(o.halves,h-4);ctx.stroke();ctx.setLineDash([]);
+    const nm={fcc:'γ CFC (111)',bcc:'α CCC (100)',liq:'líquido',cem:'Fe₃C',pearl:'perlita',mart:'TCC'};
+    latTag(ctx,9,15,nm[o.sub[0]]||'');latTag(ctx,o.halves+9,15,nm[o.sub[1]]||'');
+  }else if(o.plane){
+    latTag(ctx,9,15,o.plane);
+  }
+}
+
+/* ---------- ganchos nos simuladores ---------- */
+const eqLat=makeLat(document.getElementById('eqAtom'));
+const simLat=makeLat(document.getElementById('simAtom'));
+const LATNM={fcc:'γ · CFC',bcc:'α · CCC',pearl:'perlita · α+Fe₃C',bain:'bainita · α+carbonetos',
+             mart:'martensita · TCC',liq:'líquido',mix:'duas fases',cem:'Fe₃C'};
+function eqAtomUpdate(){
+  const st=eqState();
+  const f=n=>{const e=st.fr.find(x=>x[0]===n);return e?e[1]:0;};
+  let mode='fcc',sub=null;
+  if(st.region==='Líquido')mode='liq';
+  else if(st.region==='Líquido + γ'){
+    if(f('Austenita')<0.05)mode='liq';
+    else if(f('Líquido')<0.05)mode='fcc';
+    else{mode='mix';sub=['liq','fcc'];}
+  }else if(st.region==='Austenita γ')mode='fcc';
+  else if(st.region==='Ferrita α + γ (intercrítica)'){
+    if(f('Ferrita')<0.05)mode='fcc';
+    else if(f('Austenita')<0.05)mode='bcc';
+    else{mode='mix';sub=['bcc','fcc'];}
+  }else if(st.region==='Ferrita + Perlita'){
+    if(f('Ferrita')<0.04)mode='pearl';
+    else if(f('Perlita')<0.04)mode='bcc';
+    else{mode='mix';sub=['bcc','pearl'];}
+  }else if(st.region==='γ + Fe₃C'){
+    if(f('Cementita')<0.03)mode='fcc';
+    else{mode='mix';sub=['fcc','cem'];}
+  }else mode='pearl';
+  latSet(eqLat,{mode,sub,T:EQ.T,C:EQ.C});
+  const dif=EQ.T>420&&mode!=='mart'?'difusão ativa':'difusão lenta';
+  document.getElementById('eqAtomInfo').textContent=(LATNM[mode]||mode)+' · '+dif;
+}
+function simAtomUpdate(){
+  const st=state(),S=STEELS[SIM.steel];
+  const fr=[['fcc',st.fG],['bcc',st.fF],['pearl',st.fP],['bain',st.fB],['mart',st.fM]];
+  fr.sort((a,b)=>b[1]-a[1]);
+  let mode=SIM.s<0.03?'fcc':fr[0][0];
+  latSet(simLat,{mode,sub:null,T:st.T,C:S.C});
+  const dif=mode==='mart'?'difusão CONGELADA — C preso':
+    (st.T>420?'difusão ativa':'difusão quase parada');
+  SIM.atomInfo=(LATNM[mode]||mode)+' · '+dif;
+  if(SIM.view==='atom')document.getElementById('microFoot').textContent='Escala atômica — '+SIM.atomInfo;
+}
+const baseRender=render;render=function(){baseRender();simAtomUpdate();};
+const baseEq=drawEquil;drawEquil=function(){baseEq();eqAtomUpdate();};
+/* ---------- loop único ---------- */
+const VIS=new WeakMap();
+const IO='IntersectionObserver' in window?new IntersectionObserver(es=>es.forEach(e=>VIS.set(e.target,e.isIntersecting)),{threshold:0.05}):null;
+function watchVis(el){if(IO){IO.observe(el);VIS.set(el,true);}}
+function isVis(el){return el.offsetParent&&(!IO||VIS.get(el)!==false);}
+function atomLoop(ts){
+  if(!document.hidden){
+    if(isVis(bainCv))bainStep(ts);
+    LATS.forEach(o=>{if(isVis(o.cv)&&o.built)latDraw(o,ts);});
+  }
+  requestAnimationFrame(atomLoop);
+}
+
+/* ============ BOOT ============ */
+let rz;
+addEventListener('resize',()=>{clearTimeout(rz);rz=setTimeout(()=>{fitMicro();applySteel();render();drawGallery();eqFit();eqRender();bainCv._sz=fitCv(bainCv);latBuild(eqLat);latBuild(simLat);},200);});
+window.addEventListener('load',()=>{
+  document.querySelectorAll('th').forEach(t=>t.setAttribute('scope','col'));
+  document.querySelectorAll('section.module').forEach(s=>s.setAttribute('role','tabpanel'));
+  msCalc();hz();conv();
+  fitMicro();applySteel();setProc('agua');
+  drawGallery();eqFit();eqRender();
+  bainCv._sz=fitCv(bainCv);
+  latBuild(eqLat);latBuild(simLat);
+  bainSet('gamma');eqAtomUpdate();simAtomUpdate();
+  [bainCv,document.getElementById('eqAtom'),document.getElementById('simAtom'),
+   document.getElementById('micro'),document.getElementById('eqCv2')].forEach(watchVis);
+  ['simOut','eqOut','msOut','hzOut','cvOut'].forEach(i=>{const e=document.getElementById(i);
+    if(e){e.setAttribute('aria-live','polite');e.setAttribute('role','status');}});
+  requestAnimationFrame(atomLoop);
+  try{
+    const hs=location.hash.replace('#','');
+    if(/^m[1-8]$/.test(hs))goTo(hs,true);
+  }catch(e){}
+});
+window.addEventListener('hashchange',()=>{
+  try{
+    const hs=location.hash.replace('#','');
+    if(/^m[1-8]$/.test(hs))goTo(hs,true);
+  }catch(e){}
+});
+
+</script>
+</body>
+</html>
